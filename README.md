@@ -1,5 +1,7 @@
 # cms-frontend
 
+advanced frontend for [CinemaManageSystem](https://github.com/GStarP/CinemaManagementSystem)
+
 ## Project setup
 ```
 npm install
@@ -19,6 +21,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
