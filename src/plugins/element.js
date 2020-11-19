@@ -1,4 +1,28 @@
 import Vue from "vue";
-import { Button } from "element-ui";
+import {
+  Container,
+  Header,
+  Main,
+  Button,
+  Menu,
+  MenuItem,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Link,
+  Card,
+  Input
+} from "element-ui";
 
+Vue.use(Container);
+Vue.use(Header);
+Vue.use(Main);
 Vue.use(Button);
+Vue.use(Menu);
+Vue.use(MenuItem);
+Vue.use(Dropdown);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Link);
+Vue.use(Card);
+Vue.use(Input);

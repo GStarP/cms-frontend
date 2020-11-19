@@ -1,5 +1,5 @@
 <template>
-  <div class="home">HOME</div>
+  <div class="movie-list">MOVIE</div>
 </template>
 
 <script>
