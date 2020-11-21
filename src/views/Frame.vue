@@ -91,23 +91,25 @@ $headerHeight: 64px;
 
 .frame {
   min-height: 100vh;
-}
-section {
-  min-height: 100vh;
-}
-header {
-  position: fixed;
-  left: 0;
-  right: 0;
+  section {
+    min-height: 100vh;
+  }
+  header {
+    position: fixed;
+    left: 0;
+    right: 0;
 
-  background-color: #fff;
-  border-bottom: 1px solid #dcdfe6;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-main {
-  margin-top: $headerHeight;
+    background-color: #fff;
+    border-bottom: 1px solid #dcdfe6;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 24px;
+  }
+  main {
+    margin-top: $headerHeight;
+  }
 }
 .header-icon-title {
   display: flex;

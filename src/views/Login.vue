@@ -84,6 +84,32 @@ export default {
   display: flex;
   justify-content: center;
 }
+.icon-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  $margin: 4px;
+  margin-top: $margin;
+  margin-bottom: $margin + 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .icon {
+    $size: 32px;
+    width: $size;
+    height: $size;
+    margin-right: 8px;
+  }
+  .title {
+    user-select: none;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #2c2c2c;
+  }
+}
 .login-form {
   .el-input {
     margin-bottom: 1.5rem;
