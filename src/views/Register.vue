@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login" @keyup.enter="register">
     <el-card class="login-card">
       <div
         class="icon-title"
