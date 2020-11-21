@@ -68,17 +68,12 @@ export default {
         return;
       }
       register(this.username, this.password)
-        .then(res => {
-          if (res.success) {
-            Message.success("注册成功", { duration: 500 });
-            this.$router.push({ path: "/login" });
-          } else {
-            Message.error(res.message);
-          }
+        .then(() => {
+          Message.success("注册成功", { duration: 500 });
+          this.$router.push({ path: "/login" });
         })
         .catch(e => {
           console.log(e);
-          Message.error("网络错误");
         });
     }
   }

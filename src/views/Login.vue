@@ -56,17 +56,12 @@ export default {
       }
       login(this.username, this.password)
         .then(res => {
-          if (res.success) {
-            Message.success("登陆成功", { duration: 500 });
-            this.$store.commit("setUserInfo", res.content);
-            this.$router.push({ path: "/" });
-          } else {
-            Message.error(res.message);
-          }
+          Message.success("登陆成功", { duration: 500 });
+          this.$store.commit("setUserInfo", res.content);
+          this.$router.push({ path: "/" });
         })
         .catch(e => {
           console.log(e);
-          Message.error("网络错误");
         });
     }
   }
