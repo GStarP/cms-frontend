@@ -43,7 +43,9 @@
         </template>
       </el-header>
       <el-main>
-        <router-view />
+        <div class="content">
+          <router-view />
+        </div>
       </el-main>
     </el-container>
   </div>
@@ -109,6 +111,8 @@ $headerHeight: 64px;
   }
   main {
     margin-top: $headerHeight;
+    display: flex;
+    justify-content: center;
   }
 }
 .header-icon-title {
@@ -167,5 +171,8 @@ $headerHeight: 64px;
   &:hover {
     color: #fff;
   }
+}
+.content {
+  width: 1200px;
 }
 </style>
