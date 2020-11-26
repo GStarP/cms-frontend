@@ -37,7 +37,6 @@
 
 <script>
 import { login } from "@/api/user";
-import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -48,15 +47,15 @@ export default {
   methods: {
     login() {
       if (this.username === "") {
-        Message.warning("请填写用户名");
+        this.$message.warning("请填写用户名");
         return;
       } else if (this.password === "") {
-        Message.warning("请填写密码");
+        this.$message.warning("请填写密码");
         return;
       }
       login(this.username, this.password)
         .then(res => {
-          Message.success("登陆成功", { duration: 500 });
+          this.$message.success("登陆成功", { duration: 500 });
           this.$store.commit("setUserInfo", res.content);
           this.$router.push({ path: "/" });
         })

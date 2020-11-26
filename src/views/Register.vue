@@ -41,9 +41,8 @@
   </div>
 </template>
 
-<script>
+<script></script>
 import { register } from "@/api/user";
-import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -55,21 +54,21 @@ export default {
   methods: {
     register() {
       if (this.username === "") {
-        Message.warning("请填写用户名");
+        this.$message.warning("请填写用户名");
         return;
       } else if (this.password === "") {
-        Message.warning("请填写密码");
+        this.$message.warning("请填写密码");
         return;
       } else if (this.confirmPassword === "") {
-        Message.warning("请填写确认密码");
+        this.$message.warning("请填写确认密码");
         return;
       } else if (this.confirmPassword != this.password) {
-        Message.warning("两次填写的密码不一致");
+        this.$message.warning("两次填写的密码不一致");
         return;
       }
       register(this.username, this.password)
         .then(() => {
-          Message.success("注册成功", { duration: 500 });
+          this.$message.success("注册成功", { duration: 500 });
           this.$router.push({ path: "/login" });
         })
         .catch(e => {
