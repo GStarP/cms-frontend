@@ -7,7 +7,7 @@ import { Message } from 'element-ui';
 
 Vue.config.productionTip = false;
 
-Vue.$message = Message;
+Vue.prototype.$message = Message;
 
 new Vue({
   router,
