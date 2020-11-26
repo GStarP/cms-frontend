@@ -173,6 +173,6 @@ $headerHeight: 64px;
   }
 }
 .content {
-  width: 1200px;
+  width: 1000px;
 }
 </style>

@@ -11,7 +11,9 @@ import {
   DropdownItem,
   Link,
   Card,
-  Input
+  Input,
+  Tag,
+  Tooltip
 } from "element-ui";
 
 Vue.use(Container);
@@ -26,3 +28,5 @@ Vue.use(DropdownItem);
 Vue.use(Link);
 Vue.use(Card);
 Vue.use(Input);
+Vue.use(Tag);
+Vue.use(Tooltip);

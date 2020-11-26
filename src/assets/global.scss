@@ -2,3 +2,23 @@
  * Color
  */
 $primary: #409EFF;
+
+/**
+ * Style
+ */
+@mixin text-ellipsis($line) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $line;
+}
+
+/**
+ * Rewrite Element
+ */
+.el-tag {
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding-left: 12px;
+}
