@@ -3,11 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
-import { Message } from 'element-ui';
+import { Message, Loading } from 'element-ui';
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$message = Message;
+Vue.prototype.$loading = Loading;
 
 new Vue({
   router,
