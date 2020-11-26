@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<script></script>
+<script>
 import { register } from "@/api/user";
 export default {
   data() {
