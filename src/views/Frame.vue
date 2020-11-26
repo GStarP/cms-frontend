@@ -19,6 +19,7 @@
           >
             {{ item.label }}
           </div>
+          <search-bar />
         </div>
         <template v-if="$store.state.userInfo.username">
           <el-dropdown class="user-menu">
@@ -52,6 +53,8 @@
 </template>
 
 <script>
+import SearchBar from "@/components/SearchBar";
+
 export default {
   data() {
     return {
@@ -84,6 +87,9 @@ export default {
       });
       this.$router.push({ path: "/login" });
     }
+  },
+  components: {
+    SearchBar
   }
 };
 </script>

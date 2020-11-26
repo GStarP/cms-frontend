@@ -11,11 +11,32 @@ export default new Vuex.Store({
       username: undefined,
       password: undefined,
       auth: undefined
+    },
+    // 电影列表
+    movieList: {
+      id: undefined,
+      country: undefined,
+      description: undefined,
+      director: undefined,
+      islike: undefined,
+      language: undefined,
+      length: undefined,
+      likeCount: undefined,
+      name: undefined,
+      posterUrl: undefined,
+      screenWriter: undefined,
+      starring: undefined,
+      startDate: undefined,
+      status: undefined,
+      type: undefined
     }
   },
   mutations: {
     setUserInfo(state, userInfo) {
       this.state.userInfo = userInfo;
+    },
+    setMovieList(state, movieList) {
+      this.state.movieList = movieList;
     }
   }
 });
