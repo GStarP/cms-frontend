@@ -20,6 +20,14 @@ const routes = [
         meta: {
           title: "电影"
         }
+      },
+      {
+        path: "/movie-detail/:movieId",
+        component: () => import("@/views/MovieDetail.vue"),
+        props: true,
+        meta: {
+          title: "电影详情"
+        }
       }
     ]
   },
