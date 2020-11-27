@@ -1,10 +1,10 @@
 <template>
   <div class="movie-detail">
-    <!-- 背景 -->
-    <div class="movie-detail__background"></div>
     <!-- 电影信息 -->
     <div class="movie-info">
-      <div class="movie-info__left">
+      <div class="section-title">电影详情</div>
+      <div class="movie-info__wrapper">
+<div class="movie-info__left">
         <img class="movie-info__poster" :src="movieDetail.posterUrl" />
       </div>
       <div class="movie-info__right">
@@ -46,15 +46,24 @@
           >{{ likeText }}</icon-button
         >
       </div>
+      </div>
+      
     </div>
     <!-- 排片信息 -->
     <div class="movie-schedule">
+      <div class="section-title">排片信息</div>
       <el-tabs type="border-card">
         <el-tab-pane
           v-for="schedule of movieScheduleList"
           :key="movieId + 'schedule' + schedule.date"
-          :label="schedule.date"
-        ></el-tab-pane>
+          :label="dateText(schedule.date)"
+        >
+          <movie-schedule-item
+            v-for="item of schedule.scheduleItemList"
+            :key="movieId + 'schedule-item' + item.id"
+            :schedule="item"
+          ></movie-schedule-item>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -62,12 +71,14 @@
 
 <script>
 import IconButton from "@/components/IconButton.vue";
+import MovieScheduleItem from '@/components/movie-detail/MovieScheduleItem.vue';
 import { getMovieDetailByUser, toggleLikeMovie } from "@/api/movie";
 import { getMovieSchedule } from "@/api/schedule";
-import { formatDate } from "@/utils/time";
+import { formatDate, isToday, isNextDay } from "@/utils/time";
 export default {
   components: {
-    IconButton
+    IconButton,
+    MovieScheduleItem
   },
   props: ["movieId"],
   data() {
@@ -148,6 +159,15 @@ export default {
           console.log(e);
           loading.close();
         });
+    },
+    dateText(dateStr) {
+      if (isToday(dateStr)) {
+        return dateStr += '（今天）'
+      } else if (isNextDay(dateStr)) {
+        return dateStr += '（明天）'
+      } else {
+        return dateStr
+      }
     }
   },
   computed: {
@@ -155,7 +175,7 @@ export default {
       return this.movieDetail.type.split("/").map(t => t.trim());
     },
     description() {
-      return this.movieDetail.description.replace(" ", "");
+      return this.movieDetail.description.substr(1, this.movieDetail.description.length - 1);
     },
     likeColor() {
       return this.movieDetail.islike ? "#ed5565" : "white";
@@ -178,35 +198,25 @@ export default {
 </script>
 
 <style lang="scss">
-$movieInfoHeight: 344px;
+$moviePosterHeight: 344px;
 
 .movie-detail {
   display: flex;
   flex-direction: column;
 }
-.movie-detail__background {
-  height: $movieInfoHeight;
-  background: $primary;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 64px; /* 顶部栏高度 */
-  z-index: 1;
-}
 .movie-info {
-  z-index: 2;
-  padding: 36px;
-  margin-top: 48px;
+  margin-top: 20px;
 
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  background-color: rgb(246, 248, 250);
-  box-shadow: -3px -1px 2px -1px rgba(0, 0, 0, 0.15),
-    3px -1px 2px -1px rgba(0, 0, 0, 0.15), 0px -2px 2px -1px rgba(0, 0, 0, 0.15);
+  &__wrapper {
+padding: 36px;
+
+  background-color: #FFF;
+  border: 1px solid #DCDFE6;
 
   display: flex;
   flex-direction: row;
+  }
+  
 
   &__left {
     margin-right: 32px;
@@ -218,8 +228,8 @@ $movieInfoHeight: 344px;
   }
 
   &__poster {
-    widows: $movieInfoHeight * 0.7;
-    height: $movieInfoHeight;
+    widows: $moviePosterHeight * 0.7;
+    height: $moviePosterHeight;
     outline: solid 2px #fff;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
       0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
@@ -251,9 +261,31 @@ $movieInfoHeight: 344px;
   }
 
   &__like {
-    margin-top: auto;
-    margin-bottom: 12px;
+    margin-top: 32px;
   }
+}
+.movie-schedule {
+  margin-top: 32px;
+  .el-tabs {
+    box-shadow: none;
+  }
+  .el-tabs__content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+.section-title {
+  $h: 18px;
+  height: $h;
+  line-height: $h;
+
+  font-size: 17px;
+  font-weight: bold;
+
+  padding-left: 6px;
+  border-left: 4px solid $primary;
+
+  margin-bottom: 16px;
 }
 .el-tooltip__popper {
   max-width: 800px;
