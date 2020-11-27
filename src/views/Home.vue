@@ -1,9 +1,16 @@
 <template>
-  <div class="home">HOME</div>
+  <div class="home">
+    <banner></banner>
+  </div>
 </template>
 
 <script>
-export default {};
+import Banner from "@/components/Banner";
+export default {
+  components: {
+    Banner
+  }
+};
 </script>
 
 <style lang="scss"></style>

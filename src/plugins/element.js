@@ -11,7 +11,10 @@ import {
   DropdownItem,
   Link,
   Card,
-  Input
+  Input,
+  Carousel,
+  CarouselItem,
+  Image
 } from "element-ui";
 
 Vue.use(Container);
@@ -26,3 +29,6 @@ Vue.use(DropdownItem);
 Vue.use(Link);
 Vue.use(Card);
 Vue.use(Input);
+Vue.use(Carousel);
+Vue.use(CarouselItem);
+Vue.use(Image);
