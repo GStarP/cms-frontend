@@ -24,6 +24,7 @@ export default {
 
   button {
     margin-top: 3rem;
+    padding-right: 18px;
 
     outline: 1.5px solid #fff;
     background: transparent;
@@ -31,8 +32,8 @@ export default {
     border-radius: 0;
     color: #fff;
 
-    font-weight: bold;
-    letter-spacing: 1px;
+    font-weight: 300;
+    letter-spacing: 2px;
 
     &:hover {
       color: $primary;
