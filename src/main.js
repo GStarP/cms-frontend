@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
-import { Message, Loading } from 'element-ui';
+import { Message, Loading } from "element-ui";
 
 Vue.config.productionTip = false;
 

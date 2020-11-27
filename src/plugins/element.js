@@ -13,7 +13,9 @@ import {
   Card,
   Input,
   Tag,
-  Tooltip
+  Tooltip,
+  Tabs,
+  TabPane
 } from "element-ui";
 
 Vue.use(Container);
@@ -30,3 +32,5 @@ Vue.use(Card);
 Vue.use(Input);
 Vue.use(Tag);
 Vue.use(Tooltip);
+Vue.use(Tabs);
+Vue.use(TabPane);

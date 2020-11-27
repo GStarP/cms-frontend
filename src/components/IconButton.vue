@@ -2,27 +2,27 @@
   <div class="icon-button" @click="$emit('click')">
     <div class="icon-button__icon" :style="iconStyle"></div>
     <div class="icon-button__text">
-      <slot/>
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['icon', 'color'],
+  props: ["icon", "color"],
   computed: {
     iconStyle() {
-      const url = require(`@/assets/img/${this.icon}.svg`)
+      const url = require(`@/assets/img/${this.icon}.svg`);
       return {
-        'mask': `url(${url}) no-repeat 50% 50%`,
-        '-webkit-mask': `url(${url}) no-repeat 50% 50%`,
-        'mask-size': 'contain',
-        '-webkit-mask-size': 'contain',
-        'background-color': this.color
-      }
+        mask: `url(${url}) no-repeat 50% 50%`,
+        "-webkit-mask": `url(${url}) no-repeat 50% 50%`,
+        "mask-size": "contain",
+        "-webkit-mask-size": "contain",
+        "background-color": this.color
+      };
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -40,7 +40,7 @@ export default {
 
   &:hover {
     cursor: pointer;
-    background-color: #1E88E5;
+    background-color: #1e88e5;
   }
 
   .icon-button__icon {
@@ -56,7 +56,7 @@ export default {
     font-size: 16px;
     font-weight: 300;
     letter-spacing: 2px;
-    color: #FFF;
+    color: #fff;
   }
 }
 </style>
