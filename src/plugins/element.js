@@ -15,7 +15,8 @@ import {
   Tag,
   Tooltip,
   Tabs,
-  TabPane
+  TabPane,
+  Icon
 } from "element-ui";
 
 Vue.use(Container);
@@ -34,3 +35,4 @@ Vue.use(Tag);
 Vue.use(Tooltip);
 Vue.use(Tabs);
 Vue.use(TabPane);
+Vue.use(Icon);

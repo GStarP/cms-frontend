@@ -5,7 +5,7 @@
       <div class="movie-schedule-item__start-time"><span>开始时间</span>{{ formatTime(schedule.startTime) }}</div>
     </div>
     <div class="movie-schedule-item__fare"><span>￥</span>{{schedule.fare}}</div>
-    <el-button class="movie-schedule-item__buy" type="primary" @click="buyTicket(schedule)">选座购票</el-button>
+    <el-button class="movie-schedule-item__buy" type="primary" @click="buyTicket(schedule.movieId, schedule.id)">选座购票</el-button>
   </div>
 </template>
 
@@ -16,8 +16,10 @@ export default {
     formatTime(time) {
       return time.substr(11, 5)
     },
-    buyTicket(schedule) {
-      // TODO 跳转选座页面
+    buyTicket(movieId, scheduleId) {
+      this.$router.push({
+        path: `/movie-ticket/${movieId}/${scheduleId}`
+      })
     }
   }
 }

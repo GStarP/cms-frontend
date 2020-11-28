@@ -10,11 +10,14 @@
       <div class="movie-info__right">
         <div class="movie-info__name">{{ movieDetail.name }}</div>
         <div class="movie-info__type">
-          <el-tag type="warning" effect="dark"
-            >{{ movieDetail.length }}分钟</el-tag
-          >
+          <el-tag type="warning" effect="dark">
+            <i class="el-icon-time"/>
+            {{ movieDetail.length }}分钟
+          </el-tag>
           <el-tag type="danger" effect="dark"
-            >{{ movieDetail.likeCount }}人想看</el-tag
+            >
+            <i class="el-icon-star-off"/>
+            {{ movieDetail.likeCount }}人想看</el-tag
           >
           <el-tag
             v-for="type in typeList"
@@ -205,7 +208,7 @@ $moviePosterHeight: 344px;
   flex-direction: column;
 }
 .movie-info {
-  margin-top: 20px;
+  margin-top: 16px;
 
   &__wrapper {
 padding: 36px;
@@ -262,6 +265,14 @@ padding: 36px;
 
   &__like {
     margin-top: 32px;
+  }
+
+  .el-tag {
+    i {
+      font-size: 16px;
+      vertical-align: text-bottom;
+      margin-right: -2px;
+    }
   }
 }
 .movie-schedule {

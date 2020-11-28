@@ -28,6 +28,14 @@ const routes = [
         meta: {
           title: "电影详情"
         }
+      },
+      {
+        path: "/movie-ticket/:movieId/:scheduleId",
+        component: () => import("@/views/MovieTicket.vue"),
+        props: true,
+        meta: {
+          title: "选座购票"
+        }
       }
     ]
   },
