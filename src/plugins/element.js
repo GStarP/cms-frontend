@@ -14,7 +14,10 @@ import {
   Input,
   Carousel,
   CarouselItem,
-  Image
+  Image,
+  Dialog,
+  Table,
+  TableColumn
 } from "element-ui";
 
 Vue.use(Container);
@@ -32,3 +35,6 @@ Vue.use(Input);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
 Vue.use(Image);
+Vue.use(Dialog);
+Vue.use(Table);
+Vue.use(TableColumn);
