@@ -27,7 +27,7 @@ export default {
     },
     buyTicket(movieId, scheduleId) {
       this.$router.push({
-        path: `/movie-ticket/${movieId}/${scheduleId}`
+        path: `/movie-ticket-seat/${movieId}/${scheduleId}`
       });
     }
   }

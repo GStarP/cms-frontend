@@ -16,7 +16,9 @@ import {
   Tooltip,
   Tabs,
   TabPane,
-  Icon
+  Icon,
+  Steps,
+  Step
 } from "element-ui";
 
 Vue.use(Container);
@@ -36,3 +38,5 @@ Vue.use(Tooltip);
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Icon);
+Vue.use(Steps);
+Vue.use(Step);

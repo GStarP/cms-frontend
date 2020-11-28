@@ -6,3 +6,12 @@ export async function getScheduleInfo(scheduleId) {
   );
   return data;
 }
+
+export async function lockSeat(userId, scheduleId, seats) {
+  const { data } = await axios.post("/ticket/lockSeat", {
+    userId,
+    scheduleId,
+    seats
+  });
+  return data;
+}
