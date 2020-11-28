@@ -55,7 +55,7 @@
     <!-- 排片信息 -->
     <div class="movie-schedule">
       <div class="section-title">排片信息</div>
-      <el-tabs type="border-card">
+      <el-tabs type="border-card" v-if="movieScheduleList.length > 0">
         <el-tab-pane
           v-for="schedule of movieScheduleList"
           :key="movieId + 'schedule' + schedule.date"
@@ -68,6 +68,10 @@
           ></movie-schedule-item>
         </el-tab-pane>
       </el-tabs>
+      <div v-else class="no-movie-schedule">
+        <span>暂无排片，不如</span>
+        <el-link type="primary" @click="$router.push({ path: '/movie' })">看看其它电影</el-link>
+      </div>
     </div>
   </div>
 </template>
@@ -178,7 +182,7 @@ export default {
       return this.movieDetail.type.split("/").map(t => t.trim());
     },
     description() {
-      return this.movieDetail.description.substr(1, this.movieDetail.description.length - 1);
+      return ' ' + this.movieDetail.description.trim();
     },
     likeColor() {
       return this.movieDetail.islike ? "#ed5565" : "white";
@@ -228,6 +232,7 @@ padding: 36px;
   &__right {
     display: flex;
     flex-direction: column;
+    margin-top: -4px;
   }
 
   &__poster {
@@ -245,14 +250,14 @@ padding: 36px;
 
   &__type {
     margin-top: 16px;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     > span {
       margin-right: 6px;
     }
   }
 
   &__text {
-    margin-top: 6px;
+    margin-top: 8px;
     span {
       font-weight: bold;
     }
@@ -264,7 +269,8 @@ padding: 36px;
   }
 
   &__like {
-    margin-top: 32px;
+    margin-top: auto;
+    margin-bottom: 8px;
   }
 
   .el-tag {
@@ -277,6 +283,26 @@ padding: 36px;
 }
 .movie-schedule {
   margin-top: 32px;
+
+.no-movie-schedule {
+  border: 1px solid #DCDFE6;
+  background-color: #FFF;
+  padding: 48px 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  span {
+font-size: 18px;
+
+&:first-child {
+  margin-right: 2px;
+}
+  }
+  
+}
+
   .el-tabs {
     box-shadow: none;
   }
