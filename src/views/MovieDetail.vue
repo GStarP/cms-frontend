@@ -4,53 +4,51 @@
     <div class="movie-info">
       <div class="section-title">电影详情</div>
       <div class="movie-info__wrapper">
-<div class="movie-info__left">
-        <img class="movie-info__poster" :src="movieDetail.posterUrl" />
-      </div>
-      <div class="movie-info__right">
-        <div class="movie-info__name">{{ movieDetail.name }}</div>
-        <div class="movie-info__type">
-          <el-tag type="warning" effect="dark">
-            <i class="el-icon-time"/>
-            {{ movieDetail.length }}分钟
-          </el-tag>
-          <el-tag type="danger" effect="dark"
+        <div class="movie-info__left">
+          <img class="movie-info__poster" :src="movieDetail.posterUrl" />
+        </div>
+        <div class="movie-info__right">
+          <div class="movie-info__name">{{ movieDetail.name }}</div>
+          <div class="movie-info__type">
+            <el-tag type="warning" effect="dark">
+              <i class="el-icon-time" />
+              {{ movieDetail.length }}分钟
+            </el-tag>
+            <el-tag type="danger" effect="dark">
+              <i class="el-icon-star-off" />
+              {{ movieDetail.likeCount }}人想看</el-tag
             >
-            <i class="el-icon-star-off"/>
-            {{ movieDetail.likeCount }}人想看</el-tag
+            <el-tag
+              v-for="type in typeList"
+              :key="movieId + 'type' + type"
+              effect="dark"
+              >{{ type }}</el-tag
+            >
+          </div>
+          <div class="movie-info__text">
+            <span>导演：</span>{{ text(movieDetail.director) }}
+          </div>
+          <div class="movie-info__text">
+            <span>主演：</span>{{ text(movieDetail.starring) }}
+          </div>
+          <div class="movie-info__text">
+            <span>语言：</span>{{ text(movieDetail.language) }}
+          </div>
+          <div class="movie-info__text">
+            <span>简介：</span>
+            <el-tooltip placement="top" :content="text(description)">
+              <div>{{ text(description) }}</div>
+            </el-tooltip>
+          </div>
+          <icon-button
+            class="movie-info__like"
+            icon="heart"
+            :color="likeColor"
+            @click="updateLikeMovie"
+            >{{ likeText }}</icon-button
           >
-          <el-tag
-            v-for="type in typeList"
-            :key="movieId + 'type' + type"
-            effect="dark"
-            >{{ type }}</el-tag
-          >
         </div>
-        <div class="movie-info__text">
-          <span>导演：</span>{{ text(movieDetail.director) }}
-        </div>
-        <div class="movie-info__text">
-          <span>主演：</span>{{ text(movieDetail.starring) }}
-        </div>
-        <div class="movie-info__text">
-          <span>语言：</span>{{ text(movieDetail.language) }}
-        </div>
-        <div class="movie-info__text">
-          <span>简介：</span>
-          <el-tooltip placement="top" :content="text(description)">
-            <div>{{ text(description) }}</div>
-          </el-tooltip>
-        </div>
-        <icon-button
-          class="movie-info__like"
-          icon="heart"
-          :color="likeColor"
-          @click="updateLikeMovie"
-          >{{ likeText }}</icon-button
-        >
       </div>
-      </div>
-      
     </div>
     <!-- 排片信息 -->
     <div class="movie-schedule">
@@ -70,7 +68,9 @@
       </el-tabs>
       <div v-else class="no-movie-schedule">
         <span>暂无排片，不如</span>
-        <el-link type="primary" @click="$router.push({ path: '/movie' })">看看其它电影</el-link>
+        <el-link type="primary" @click="$router.push({ path: '/movie' })"
+          >看看其它电影</el-link
+        >
       </div>
     </div>
   </div>
@@ -78,7 +78,7 @@
 
 <script>
 import IconButton from "@/components/IconButton.vue";
-import MovieScheduleItem from '@/components/movie-detail/MovieScheduleItem.vue';
+import MovieScheduleItem from "@/components/movie-detail/MovieScheduleItem.vue";
 import { getMovieDetailByUser, toggleLikeMovie } from "@/api/movie";
 import { getMovieSchedule } from "@/api/schedule";
 import { formatDate, isToday, isNextDay } from "@/utils/time";
@@ -169,11 +169,11 @@ export default {
     },
     dateText(dateStr) {
       if (isToday(dateStr)) {
-        return dateStr += '（今天）'
+        return (dateStr += "（今天）");
       } else if (isNextDay(dateStr)) {
-        return dateStr += '（明天）'
+        return (dateStr += "（明天）");
       } else {
-        return dateStr
+        return dateStr;
       }
     }
   },
@@ -182,7 +182,7 @@ export default {
       return this.movieDetail.type.split("/").map(t => t.trim());
     },
     description() {
-      return ' ' + this.movieDetail.description.trim();
+      return " " + this.movieDetail.description.trim();
     },
     likeColor() {
       return this.movieDetail.islike ? "#ed5565" : "white";
@@ -215,15 +215,14 @@ $moviePosterHeight: 344px;
   margin-top: 16px;
 
   &__wrapper {
-padding: 36px;
+    padding: 36px;
 
-  background-color: #FFF;
-  border: 1px solid #DCDFE6;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
 
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
   }
-  
 
   &__left {
     margin-right: 32px;
@@ -284,24 +283,23 @@ padding: 36px;
 .movie-schedule {
   margin-top: 32px;
 
-.no-movie-schedule {
-  border: 1px solid #DCDFE6;
-  background-color: #FFF;
-  padding: 48px 0;
+  .no-movie-schedule {
+    border: 1px solid #dcdfe6;
+    background-color: #fff;
+    padding: 48px 0;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
-  span {
-font-size: 18px;
+    span {
+      font-size: 18px;
 
-&:first-child {
-  margin-right: 2px;
-}
+      &:first-child {
+        margin-right: 2px;
+      }
+    }
   }
-  
-}
 
   .el-tabs {
     box-shadow: none;

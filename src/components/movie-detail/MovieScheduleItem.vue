@@ -2,27 +2,36 @@
   <div class="movie-schedule-item">
     <div class="movie-schedule-item__left">
       <div class="movie-schedule-item__hall">{{ schedule.hallName }}</div>
-      <div class="movie-schedule-item__start-time"><span>开始时间</span>{{ formatTime(schedule.startTime) }}</div>
+      <div class="movie-schedule-item__start-time">
+        <span>开始时间</span>{{ formatTime(schedule.startTime) }}
+      </div>
     </div>
-    <div class="movie-schedule-item__fare"><span>￥</span>{{schedule.fare}}</div>
-    <el-button class="movie-schedule-item__buy" type="primary" @click="buyTicket(schedule.movieId, schedule.id)">选座购票</el-button>
+    <div class="movie-schedule-item__fare">
+      <span>￥</span>{{ schedule.fare }}
+    </div>
+    <el-button
+      class="movie-schedule-item__buy"
+      type="primary"
+      @click="buyTicket(schedule.movieId, schedule.id)"
+      >选座购票</el-button
+    >
   </div>
 </template>
 
 <script>
 export default {
-  props: ['schedule'],
+  props: ["schedule"],
   methods: {
     formatTime(time) {
-      return time.substr(11, 5)
+      return time.substr(11, 5);
     },
     buyTicket(movieId, scheduleId) {
       this.$router.push({
         path: `/movie-ticket/${movieId}/${scheduleId}`
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

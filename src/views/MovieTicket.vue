@@ -1,6 +1,6 @@
 <template>
   <div class="movie-ticket">
-    {{movieId + ' ' + scheduleId}}
+    {{ movieId + " " + scheduleId }}
   </div>
 </template>
 
@@ -11,10 +11,8 @@
 // /vip/get/12
 // /refund/all
 export default {
-  props: ['movieId', 'scheduleId']
-}
+  props: ["movieId", "scheduleId"]
+};
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
