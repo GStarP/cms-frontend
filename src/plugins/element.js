@@ -18,7 +18,10 @@ import {
   TabPane,
   Icon,
   Steps,
-  Step
+  Step,
+  Alert,
+  Table,
+  TableColumn
 } from "element-ui";
 
 Vue.use(Container);
@@ -40,3 +43,6 @@ Vue.use(TabPane);
 Vue.use(Icon);
 Vue.use(Steps);
 Vue.use(Step);
+Vue.use(Alert);
+Vue.use(Table);
+Vue.use(TableColumn);

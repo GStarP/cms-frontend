@@ -12,8 +12,7 @@ export default new Vuex.Store({
       username: undefined,
       password: undefined,
       auth: undefined
-    },
-    payInfo: {}
+    }
   },
   mutations: {
     setUserInfo(state, userInfo) {

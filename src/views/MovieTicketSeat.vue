@@ -69,7 +69,7 @@
               v-for="seat of selectedSeats"
               :key="scheduleId + 'r' + seat.rowIndex + 'c' + seat.columnIndex"
               effect="plain"
-              >{{ seat.rowIndex + 1 }}排{{ seat.columnIndex + 1 }}列</el-tag
+              >{{ seat.rowIndex + 1 }} 排 {{ seat.columnIndex + 1 }} 座</el-tag
             >
           </div>
         </div>
@@ -173,8 +173,7 @@ export default {
         this.selectedSeats
       )
         .then(res => {
-          this.$store.commit("setPayInfo", res.content);
-          this.$router.push({ path: "/movie-ticket-pay" });
+          this.$router.push({ path: "/movie-ticket-pay", query: { c: 1 } });
           this.$message.success("选座成功，请尽快完成支付");
           loading.close();
         })
@@ -352,6 +351,9 @@ export default {
     flex-wrap: wrap;
 
     .el-tag {
+      letter-spacing: 0;
+      padding-right: 12px;
+
       margin-right: 8px;
       margin-bottom: 8px;
     }
