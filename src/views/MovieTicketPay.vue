@@ -117,7 +117,7 @@
 <script>
 import MovieTicketStep from "@/components/movie-ticket/MovieTicketStep.vue";
 import NumberPasswordInput from "@/components/movie-ticket/NumberPasswordInput.vue";
-import { buyTicketByVIP, buyTicket } from "@/api/ticket";
+import { getTicketToPay, buyTicketByVIP, buyTicket } from "@/api/ticket";
 import { getVIPCardByUserId } from "@/api/vip-card";
 
 export default {
@@ -125,23 +125,7 @@ export default {
   data() {
     return {
       payInfo: {
-        ticketList: [
-          {
-            ticketId: 412,
-            schedule: {
-              id: 116,
-              hallId: 1,
-              hallName: "3号厅",
-              movieId: 1,
-              movieName: "X战警：黑凤凰 Dark Phoenix",
-              startTime: "2020-11-27T10:00:00.000+0800",
-              endTime: "2020-11-27T12:00:00.000+0800",
-              fare: 55
-            },
-            columnIndex: 0,
-            rowIndex: 0
-          }
-        ],
+        ticketList: [],
         coupons: []
       },
       selectedTickets: [],
@@ -168,8 +152,11 @@ export default {
     };
   },
   methods: {
-    updatePayInfo() {
-      // TODO 等待后端创建
+    async updatePayInfo() {
+      const loading = this.$loading.service()
+      const res = await getTicketToPay(this.$store.state.userInfo.id)
+      this.payInfo = res.content
+      loading.close()
     },
     onTicketListSelectChange(val) {
       this.selectedTickets = val;
@@ -288,8 +275,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.updatePayInfo();
+  async mounted() {
+    await this.updatePayInfo();
     this.$refs.ticketList.toggleAllSelection();
     this.updateVIPCardInfo();
   },
