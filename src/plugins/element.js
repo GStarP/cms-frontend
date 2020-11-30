@@ -21,7 +21,8 @@ import {
   Step,
   Alert,
   Table,
-  TableColumn
+  TableColumn,
+  Dialog
 } from "element-ui";
 
 Vue.use(Container);
@@ -46,3 +47,4 @@ Vue.use(Step);
 Vue.use(Alert);
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Dialog);

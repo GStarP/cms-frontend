@@ -43,6 +43,13 @@ const routes = [
         meta: {
           title: "支付"
         }
+      },
+      {
+        path: "/movie-ticket-finish",
+        component: () => import("@/views/MovieTicketFinish.vue"),
+        meta: {
+          title: "支付成功"
+        }
       }
     ]
   },

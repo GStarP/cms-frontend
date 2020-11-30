@@ -15,3 +15,19 @@ export async function lockSeat(userId, scheduleId, seats) {
   });
   return data;
 }
+
+export async function buyTicketByVIP(ticketIdList, couponId) {
+  const { data } = await axios.post("/ticket/vip/buy", {
+    ticketId: ticketIdList,
+    couponId
+  });
+  return data;
+}
+
+export async function buyTicket(ticketIdList, couponId) {
+  const { data } = await axios.post("/ticket/buy", {
+    ticketId: ticketIdList,
+    couponId
+  });
+  return data;
+}

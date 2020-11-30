@@ -67,28 +67,69 @@
           <div class="movie-ticket-pay__real-fare">
             实际支付：<span>￥</span><span>{{ realFare.toFixed(2) }}</span>
           </div>
-          <el-button type="primary" :disabled="totalFare <= 0"
+          <el-button type="primary" :disabled="totalFare <= 0" @click="startPay"
             >确认支付</el-button
           >
         </div>
       </div>
     </div>
+    <!-- 银行卡支付弹窗 -->
+    <el-dialog
+      class="bank-card-dialog"
+      title="银行卡支付"
+      :visible.sync="bankCardDialogShow"
+      :close-on-click-modal="false"
+      width="600px"
+      top="25vh"
+    >
+      <div class="bank-card-dialog__hint">请输入支付密码</div>
+      <number-password-input @finish="onBankCardPasswordFinish" />
+    </el-dialog>
+    <!-- 会员卡支付弹窗 -->
+    <el-dialog
+      class="vip-card-dialog"
+      title="会员卡支付"
+      :visible.sync="vipCardDialogShow"
+      :close-on-click-modal="false"
+      width="600px"
+      top="25vh"
+    >
+      <div class="vip-card-dialog__info">
+        <div><span>会员卡类型：</span>{{ vipCardInfo.cardType.name }}</div>
+        <div>
+          <span>会员卡优惠：</span>{{ vipCardInfo.cardType.description }}
+        </div>
+        <div>
+          <span>会员卡余额：</span>{{ vipCardInfo.balance.toFixed(2) }} 元
+        </div>
+        <div><span>待支付金额：</span>{{ realFare.toFixed(2) }} 元</div>
+      </div>
+      <div class="vip-card-dialog__operation">
+        <el-link @click="switchToBankCardPay">银行卡支付</el-link>
+        <el-button :type="vipCardPayColor" @click="vipCardPayOperation">{{
+          vipCardPayText
+        }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import MovieTicketStep from "@/components/movie-ticket/MovieTicketStep.vue";
+import NumberPasswordInput from "@/components/movie-ticket/NumberPasswordInput.vue";
+import { buyTicketByVIP, buyTicket } from "@/api/ticket";
+import { getVIPCardByUserId } from "@/api/vip-card";
 
 export default {
-  components: { MovieTicketStep },
+  components: { MovieTicketStep, NumberPasswordInput },
   data() {
     return {
       payInfo: {
         ticketList: [
           {
-            ticketId: 1,
+            ticketId: 412,
             schedule: {
-              id: 368,
+              id: 116,
               hallId: 1,
               hallName: "3号厅",
               movieId: 1,
@@ -97,44 +138,33 @@ export default {
               endTime: "2020-11-27T12:00:00.000+0800",
               fare: 55
             },
-            columnIndex: 1,
-            rowIndex: 1
-          },
-          {
-            ticketId: 1,
-            schedule: {
-              id: 369,
-              hallId: 1,
-              hallName: "3号厅",
-              movieId: 1,
-              movieName: "X战警：黑凤凰 Dark Phoenix",
-              startTime: "2020-11-27T10:00:00.000+0800",
-              endTime: "2020-11-27T12:00:00.000+0800",
-              fare: 55
-            },
-            columnIndex: 1,
-            rowIndex: 1
+            columnIndex: 0,
+            rowIndex: 0
           }
         ],
-        coupons: [
-          {
-            id: 1,
-            description: "这是一张优惠券",
-            name: "冬至未至",
-            targetAmount: 100,
-            discountAmount: 10.5
-          },
-          {
-            id: 2,
-            description: "这是一张优惠券",
-            name: "冬至未至",
-            targetAmount: 50,
-            discountAmount: 20
-          }
-        ]
+        coupons: []
       },
       selectedTickets: [],
-      selectedCoupon: 0
+      selectedCoupon: 0,
+      vipCardInfo: {
+        userId: 0,
+        id: 0,
+        balance: 0,
+        joinDate: "2020-01-01T00:00:00.000",
+        cardTypeId: 0,
+        cardType: {
+          id: 0,
+          name: "",
+          description: "",
+          price: 0,
+          topUpTarget: 0,
+          topUpDiscount: 0,
+          ticketTarget: 0,
+          ticketDiscount: 0
+        }
+      },
+      vipCardDialogShow: false,
+      bankCardDialogShow: false
     };
   },
   methods: {
@@ -153,6 +183,66 @@ export default {
       } else {
         return "plain";
       }
+    },
+    updateVIPCardInfo() {
+      getVIPCardByUserId(this.$store.state.userInfo.id)
+        .then(res => {
+          this.vipCardInfo = res.content;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    startPay() {
+      if (this.vipCardInfo.id === 0) {
+        this.bankCardDialogShow = true;
+      } else {
+        this.vipCardDialogShow = true;
+      }
+    },
+    switchToBankCardPay() {
+      this.vipCardDialogShow = false;
+      this.bankCardDialogShow = true;
+    },
+    vipCardPayOperation() {
+      if (this.vipCardInfo.balance >= this.realFare) {
+        this.payByVIPCard();
+      } else {
+        // TODO 跳转至充值页
+      }
+    },
+    onBankCardPasswordFinish() {
+      const loading = this.$loading.service({
+        text: "正在调用银行支付接口..."
+      });
+      setTimeout(() => {
+        loading.close();
+        this.payByBankCard();
+      }, 500);
+    },
+    payByVIPCard() {
+      this.pay(buyTicketByVIP);
+    },
+    payByBankCard() {
+      this.pay(buyTicket);
+    },
+    pay(payFunction) {
+      const ticketIdList = this.selectedTickets.map(t => t.ticketId);
+      let couponId = 0;
+      if (this.availableCoupons.length > 0) {
+        couponId = this.availableCoupons[this.selectedCoupon].id;
+      }
+      const loading = this.$loading.service();
+      payFunction(ticketIdList, couponId)
+        .then(res => {
+          this.$router.push({ path: "/movie-ticket-finish" });
+          this.$message.success("支付成功");
+          loading.close();
+        })
+        .catch(e => {
+          console.log(e);
+          loading.close();
+        });
     }
   },
   computed: {
@@ -182,11 +272,26 @@ export default {
         fare -= this.availableCoupons[this.selectedCoupon].discountAmount;
       }
       return fare;
+    },
+    vipCardPayColor() {
+      if (this.vipCardInfo.balance >= this.realFare) {
+        return "primary";
+      } else {
+        return "warning";
+      }
+    },
+    vipCardPayText() {
+      if (this.vipCardInfo.balance >= this.realFare) {
+        return "会员卡快捷支付";
+      } else {
+        return "前往充值";
+      }
     }
   },
   mounted() {
     this.updatePayInfo();
     this.$refs.ticketList.toggleAllSelection();
+    this.updateVIPCardInfo();
   },
   watch: {
     availableCoupons() {
@@ -268,7 +373,7 @@ export default {
 
   .no-coupon {
     font-size: 15px;
-    color: #999;
+    color: #606266;
     height: 30px;
     line-height: 30px;
 
@@ -276,6 +381,12 @@ export default {
       font-size: 15px;
       font-weight: bold;
       vertical-align: baseline;
+      span {
+        text-decoration: underline;
+      }
+    }
+    .el-link.is-underline:hover:after {
+      border: none;
     }
   }
 
@@ -331,6 +442,66 @@ export default {
     padding: 12px 20px;
     padding-right: 18px;
     letter-spacing: 2px;
+  }
+}
+.el-dialog__header {
+  padding-left: 30px;
+  padding-top: 25px;
+}
+.bank-card-dialog {
+  display: flex;
+  flex-direction: column;
+
+  &__hint {
+    text-align: center;
+    font-weight: 300;
+    font-size: 18px;
+    margin-bottom: 24px;
+  }
+
+  .number-password-input {
+    margin-bottom: 72px;
+  }
+}
+.vip-card-dialog {
+  display: flex;
+  flex-direction: column;
+
+  .el-dialog__title {
+    font-weight: bold;
+  }
+
+  &__info {
+    padding-left: 40px;
+    margin-bottom: 24px;
+
+    > div {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    span {
+      display: inline-block;
+      width: 100px;
+      color: #999;
+    }
+  }
+
+  &__operation {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    .el-link {
+      margin-right: 8px;
+      font-weight: 300;
+      font-size: 14px;
+    }
+    .el-button {
+      margin-right: 10px;
+      font-weight: 300;
+    }
   }
 }
 .section-title {
