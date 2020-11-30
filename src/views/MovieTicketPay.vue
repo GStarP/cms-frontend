@@ -153,10 +153,10 @@ export default {
   },
   methods: {
     async updatePayInfo() {
-      const loading = this.$loading.service()
-      const res = await getTicketToPay(this.$store.state.userInfo.id)
-      this.payInfo = res.content
-      loading.close()
+      const loading = this.$loading.service();
+      const res = await getTicketToPay(this.$store.state.userInfo.id);
+      this.payInfo = res.content;
+      loading.close();
     },
     onTicketListSelectChange(val) {
       this.selectedTickets = val;

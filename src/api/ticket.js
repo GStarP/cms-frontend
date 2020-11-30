@@ -17,9 +17,7 @@ export async function lockSeat(userId, scheduleId, seats) {
 }
 
 export async function getTicketToPay(userId) {
-  const { data } = await axios.get(
-    `/ticket/toPay?userId=${userId}`
-  );
+  const { data } = await axios.get(`/ticket/toPay?userId=${userId}`);
   return data;
 }
 
