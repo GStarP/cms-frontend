@@ -15,7 +15,7 @@
             :key="'nav-menu-item-' + i"
             class="nav-menu-item"
             :class="{ 'nav-menu-item-active': active(i) }"
-            @click="!active(i) && $router.push({ path: item.route })"
+            @click="navTo(item.route)"
           >
             {{ item.label }}
           </div>
@@ -74,6 +74,19 @@ export default {
   methods: {
     active(i) {
       return this.$route.path === this.navMenuItem[i].route;
+    },
+    navTo(route) {
+      if (this.$route.path !== route) {
+        if (route === "/lottery") {
+          this.$requireLogin()
+            .then(() => {
+              this.$router.push({ path: route });
+            })
+            .catch(e => {});
+        } else {
+          this.$router.push({ path: route });
+        }
+      }
     },
     logout() {
       this.$store.commit("setUserInfo", {

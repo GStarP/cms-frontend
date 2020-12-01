@@ -9,6 +9,17 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading;
+Vue.prototype.$requireLogin = function() {
+  return new Promise((resolve, reject) => {
+    if (store.state.userInfo.id === 0) {
+      router.push({ path: "/login" });
+      this.$message.warning("请先登录");
+      reject();
+    } else {
+      resolve();
+    }
+  });
+};
 
 new Vue({
   router,

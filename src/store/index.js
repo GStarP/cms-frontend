@@ -8,10 +8,10 @@ export default new Vuex.Store({
     // 已登录用户信息
     userInfo: {
       id: 12,
-      // id: undefined,
-      username: undefined,
-      password: undefined,
-      auth: undefined
+      // id: 0,
+      username: "",
+      password: "",
+      auth: 0
     }
   },
   mutations: {
