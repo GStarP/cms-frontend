@@ -17,6 +17,9 @@ export default new Vuex.Store({
   mutations: {
     setUserInfo(state, userInfo) {
       this.state.userInfo = userInfo;
+    },
+    setPayInfo(state, payInfo) {
+      this.state.payInfo = payInfo;
     }
   }
 });

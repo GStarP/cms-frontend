@@ -235,7 +235,7 @@ $moviePosterHeight: 344px;
   }
 
   &__poster {
-    widows: $moviePosterHeight * 0.7;
+    width: $moviePosterHeight * 0.7;
     height: $moviePosterHeight;
     outline: solid 2px #fff;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),

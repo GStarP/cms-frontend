@@ -20,7 +20,11 @@ import {
   Table,
   TableColumn,
   Form,
-  FormItem
+  FormItem,
+  Steps,
+  Step,
+  Alert,
+  Dialog
 } from "element-ui";
 
 Vue.use(Container);
@@ -44,3 +48,7 @@ Vue.use(Table);
 Vue.use(TableColumn);
 Vue.use(Form);
 Vue.use(FormItem);
+Vue.use(Steps);
+Vue.use(Step);
+Vue.use(Alert);
+Vue.use(Dialog);

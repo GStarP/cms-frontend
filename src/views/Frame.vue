@@ -189,6 +189,6 @@ $headerHeight: 64px;
   }
 }
 .content {
-  width: 1000px;
+  width: 1400px;
 }
 </style>

@@ -30,11 +30,25 @@ const routes = [
         }
       },
       {
-        path: "/movie-ticket/:movieId/:scheduleId",
-        component: () => import("@/views/MovieTicket.vue"),
+        path: "/movie-ticket-seat/:movieId/:scheduleId",
+        component: () => import("@/views/MovieTicketSeat.vue"),
         props: true,
         meta: {
-          title: "选座购票"
+          title: "选座"
+        }
+      },
+      {
+        path: "/movie-ticket-pay",
+        component: () => import("@/views/MovieTicketPay.vue"),
+        meta: {
+          title: "支付"
+        }
+      },
+      {
+        path: "/movie-ticket-finish",
+        component: () => import("@/views/MovieTicketFinish.vue"),
+        meta: {
+          title: "支付成功"
         }
       },
       {
