@@ -103,6 +103,7 @@ export default {
         .then(res => {
           for (let s of res.content) {
             s.time = formatTimeStamp(s.time);
+            s.isShow = 0;
             consumeList.push(s);
           }
         })
@@ -116,6 +117,7 @@ export default {
             s.time = formatTimeStamp(s.time);
             s.type="充值会员卡";
             s.consumeType="银行卡";
+            s.isShow = 0;
             consumeList.push(s);
           }
           consumeList.sort(function(a,b){return b.time>a.time?1:-1});
@@ -128,6 +130,9 @@ export default {
         });
     },
     showConsumeDetail(row, column, event){
+      if(row.isShow>0){      // 检查是否进行过加载
+        return;
+      }
       if(row.type=="充值会员卡"){
         row.isShow=3;
       }else{
