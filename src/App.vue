@@ -22,4 +22,14 @@ body {
   min-height: 100vh;
   background-color: rgb(246, 248, 250);
 }
+
+// 美化滚动条
+::-webkit-scrollbar {
+  background-color: #eee;
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+}
 </style>

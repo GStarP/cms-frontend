@@ -491,17 +491,4 @@ export default {
     }
   }
 }
-.section-title {
-  $h: 18px;
-  height: $h;
-  line-height: $h;
-
-  font-size: 16px;
-  font-weight: bold;
-
-  padding-left: 6px;
-  border-left: 4px solid $primary;
-
-  margin-bottom: 16px;
-}
 </style>
