@@ -16,7 +16,11 @@ import {
   Tooltip,
   Tabs,
   TabPane,
-  Icon
+  Icon,
+  Table,
+  TableColumn,
+  Form,
+  FormItem
 } from "element-ui";
 
 Vue.use(Container);
@@ -36,3 +40,7 @@ Vue.use(Tooltip);
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Icon);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Form);
+Vue.use(FormItem);

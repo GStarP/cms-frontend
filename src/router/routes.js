@@ -36,6 +36,13 @@ const routes = [
         meta: {
           title: "选座购票"
         }
+      },
+      {
+        path: "/user/history/consume",
+        component: () => import("@/views/ConsumeHistory.vue"),
+        meta: {
+          title: "消费记录"
+        }
       }
     ]
   },

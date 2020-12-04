@@ -30,6 +30,9 @@
               <el-dropdown-item
                 ><span @click="logout()">登出</span></el-dropdown-item
               >
+              <el-dropdown-item
+                ><span @click="$router.push({ path: '/user/history/consume' })">消费记录</span></el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
         </template>
