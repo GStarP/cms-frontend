@@ -5,7 +5,7 @@
     @expand-change="showConsumeDetail">
     <el-table-column type="expand">
       <template slot-scope="props">
-        <el-form label-position="left" inline class="demo-table-expand">
+        <el-form label-position="left" inline class="table-expand">
           <el-form-item label="日期">
             <span>{{ props.row.time }}</span>
           </el-form-item>
@@ -71,15 +71,15 @@
   </el-table>
 </template>
 
-<style>
-  .demo-table-expand {
+<style lang="scss">
+  .table-expand {
     font-size: 0;
   }
-  .demo-table-expand label {
+  .table-expand label {
     width: 90px;
     color: #99a9bf;
   }
-  .demo-table-expand .el-form-item {
+  .table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;
@@ -130,7 +130,6 @@ export default {
     showConsumeDetail(row, column, event){
       if(row.type=="充值会员卡"){
         row.isShow=3;
-        console.log("click3--------------------------------");
       }else{
         getConsumeDetail(row.id)
           .then(res => {
@@ -142,14 +141,10 @@ export default {
               row.hallName=res.hallName;
               row.seat=res.rowIndex+"排"+res.columnIndex+"座";
               row.startTime=formatTimeStamp(res.startTime);
-              console.log("click1--------------------------------");
             }else if(res.type=="购买会员卡"){
               row.isShow=2;
               row.discount=res.discount;
               row.cardType=res.cardType;
-              console.log("click2--------------------------------");
-            }else{
-              console.log("click4--------------------------------");
             }
           })
           .catch(e => {
