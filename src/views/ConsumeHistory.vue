@@ -144,7 +144,7 @@ export default {
               row.discount=res.discount;
               row.movieName=res.movieName;
               row.hallName=res.hallName;
-              row.seat=res.rowIndex+"排"+res.columnIndex+"座";
+              row.seat=(res.rowIndex+1)+"排"+(res.columnIndex+1)+"座";
               row.startTime=formatTimeStamp(res.startTime);
             }else if(res.type=="购买会员卡"){
               row.isShow=2;
