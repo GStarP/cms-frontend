@@ -18,7 +18,9 @@ import {
   TabPane,
   Icon,
   Table,
-  TableColumn
+  TableColumn,
+  Form,
+  FormItem
 } from "element-ui";
 
 Vue.use(Container);
@@ -40,3 +42,5 @@ Vue.use(TabPane);
 Vue.use(Icon);
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Form);
+Vue.use(FormItem);

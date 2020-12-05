@@ -323,6 +323,10 @@ Date.prototype.Format = function(fmt) {
       border-top: 1px solid #dcdfe6;
     }
   }
+
+  tr >th:first-child, td:first-child {
+    padding-left: 8px;
+  }
 }
 .el-table .warning-row {
   background: #e6a23c15;

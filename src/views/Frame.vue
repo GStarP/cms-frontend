@@ -20,7 +20,7 @@
             {{ item.label }}
           </div>
         </div>
-        <template v-if="$store.state.userInfo.username">
+        <template v-if="$store.state.userInfo.id > 0">
           <el-dropdown class="user-menu">
             <div class="username">
               {{ $store.state.userInfo.username }}
