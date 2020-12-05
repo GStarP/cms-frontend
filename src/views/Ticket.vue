@@ -1,0 +1,285 @@
+<template>
+  <el-table
+    :data="ticketList"
+    style="width: 100%"
+    :row-class-name="tableRowClassName">>
+    <el-table-column
+      prop="movieName"
+      label="电影名称"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      prop="hallName"
+      label="影厅名"
+      width="80">
+    </el-table-column>
+    <el-table-column
+      prop="seat"
+      label="座位"
+      width="80">
+    </el-table-column>
+    <el-table-column
+      prop="startTime"
+      label="放映时间"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      prop="time"
+      label="购票时间"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      prop="stateText"
+      label="状态"
+      width="80"
+      :filters="[{ text: '未完成', value: '未完成' }, { text: '已完成', value: '已完成' }, { text: '已失效', value: '已失效' }, { text: '已出票', value: '已出票' }, { text: '已退票', value: '已退票' }]"
+      :filter-method="filterTag"
+      filter-placement="bottom-end">
+    </el-table-column>
+    <el-table-column
+      label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="primary"
+          @click="issueMyTicket(scope.row)"
+          v-if="scope.row.state==1"
+          plain>出票</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="refundMyTicket(scope.row)"
+          v-if="scope.row.state==1"
+          plain>退票</el-button>
+        <el-button
+          size="mini"
+          @click="deleteMyTicket(scope.row)"
+          v-if="scope.row.state>1">删除</el-button>
+        <!-- 此处需要增加一个跳转，链接未定 -->
+        <el-button
+          size="mini"
+          type="success"
+          @click="handleEdit(scope.$index, scope.row)"
+          v-if="scope.row.state==0"
+          plain>付款</el-button>
+        <el-button
+          size="mini"
+          @click="cancelMyTicket(scope.row)"
+          v-if="scope.row.state==0">取消</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+
+<script>
+import { getAllTicket, issueTicket, deleteTicket, cancelTicket, getTicketRefund } from "@/api/ticket";
+import { formatTimeStamp } from "@/utils/time";
+export default {
+  data() {
+    return {
+      ticketList: []
+    };
+  },
+  methods: {
+    getTicketList(){
+      const loading = this.$loading.service();
+      const ticketList = [];
+      getAllTicket(this.$store.state.userInfo.id)
+        .then(res => {
+          for (let s of res.content) {
+            s.time = formatTimeStamp(s.time);
+            s.startTime = formatTimeStamp(s.startTime);
+            s.endTime = formatTimeStamp(s.endTime);
+            s.seat=(s.rowIndex+1)+"排"+(s.columnIndex+1)+"座";
+            var time=new Date().Format("yyyy-MM-dd hh:mm:ss");
+            if(time>s.startTime){
+              s.state=2;
+            }
+            if(s.state==0){
+              s.stateText="未完成";
+            }else if(s.state==1){
+              s.stateText="已完成";
+            }else if(s.state==2){
+              s.stateText="已失效";
+            }else if(s.state==3){
+              s.stateText="已出票";
+            }else if(s.state==4){
+              s.stateText="已退票";
+            }
+            ticketList.push(s);
+          }
+          this.ticketList=ticketList;
+          loading.close();
+        })
+        .catch(e => {
+          console.log(e);
+          loading.close();
+        });
+    },
+    issueMyTicket(row){
+      issueTicket(row.id)
+        .then(res => {
+          this.$message({
+            showClose: true,
+            message: '恭喜您！出票成功',
+            type: 'success'
+          });
+          this.getTicketList();
+        })
+        .catch(e => {
+          this.$message({
+            showClose: true,
+            message: '出票失败，请重试',
+            type: 'error'
+          });
+          console.log(e);
+        })
+    },
+    deleteMyTicket(row){
+      deleteTicket(row.id)
+        .then(res => {
+          this.$message({
+            showClose: true,
+            message: '删除成功',
+            type: 'success'
+          });
+          this.getTicketList();
+        })
+        .catch(e => {
+          this.$message({
+            showClose: true,
+            message: '删除失败',
+            type: 'error'
+          });
+          console.log(e);
+        })
+    },
+    refundMyTicket(row){
+      getTicketRefund(row.id)
+        .then(res => {
+          var refundText="";
+          var discount=parseInt(res.content);
+          if(discount==100){
+            refundText='现在退票将全款返还支付金额，请确认是否退票。';
+          }else if(discount==0){
+            refundText='现在退票不返还支付金额，请确认是否退票。';
+          }else{
+            refundText='现在退款将返还支付金额的'+discount+'%，请确认是否退票。';
+          }
+          this.$confirm(refundText, '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+            .then(() => {
+              deleteTicket(row.id)
+              .then(res => {
+                this.$message({
+                showClose: true,
+                message: '退票成功',
+                type: 'success'
+              });
+              this.getTicketList();
+            })
+            .catch(e => {
+              this.$message({
+                showClose: true,
+                message: '退票失败',
+                type: 'error'
+              });
+              console.log(e);
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消退票'
+            });          
+          });
+        })
+      .catch(e => {
+        this.$message({
+          showClose: true,
+          message: '退票失败，请重试',
+          type: 'error'
+        });
+        console.log(e);
+      })
+    },
+    cancelMyTicket(row){
+      deleteTicket(row.id)
+        .then(res => {
+          this.$message({
+            showClose: true,
+            message: '取消成功',
+            type: 'success'
+          });
+          this.getTicketList();
+        })
+        .catch(e => {
+          this.$message({
+            showClose: true,
+            message: '取消失败',
+            type: 'error'
+          });
+          console.log(e);
+        })
+    },
+    resetDateFilter() {
+      this.$refs.filterTable.clearFilter('date');
+    },
+    clearFilter() {
+      this.$refs.filterTable.clearFilter();
+    },
+    filterTag(value, row) {
+      return row.stateText == value;
+    },
+    tableRowClassName({row, rowIndex}) {
+        if (row.state == 1) {
+          return 'warning-row';
+        }else if (row.state == 0) {
+          return 'danger-row';
+        }else if (row.state == 4) {
+          return 'info-row';
+        }else if (row.state == 3) {
+          return 'success-row';
+        }
+        return '';
+      }
+  },
+  mounted() {
+    this.getTicketList();
+  }
+};
+// 此段引用自 折戟沉沙_wx 的CSDN博客 https://blog.csdn.net/Vasilis_1/article/details/73649961
+Date.prototype.Format = function (fmt) { // author: meizz
+    var o = {
+        "M+": this.getMonth() + 1, // 月份
+        "d+": this.getDate(), // 日
+        "h+": this.getHours(), // 小时
+        "m+": this.getMinutes(), // 分
+        "s+": this.getSeconds(), // 秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+        "S": this.getMilliseconds() // 毫秒
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+}
+</script>
+
+<style lang="scss">
+.el-table .warning-row {
+  background: #e6a23c15;
+}
+.el-table .success-row {
+  background: #67c23a15;
+}
+.el-table .info-row {
+  background: #90939915;
+}
+.el-table .danger-row {
+  background: #f56c6c15;
+}
+</style>

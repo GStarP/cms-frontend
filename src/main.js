@@ -3,12 +3,13 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
-import { Message, Loading } from "element-ui";
+import { Message, Loading, MessageBox } from "element-ui";
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading;
+Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$requireLogin = function() {
   return new Promise((resolve, reject) => {
     if (store.state.userInfo.id === 0) {
