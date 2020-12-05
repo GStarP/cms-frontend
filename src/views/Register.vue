@@ -32,8 +32,7 @@
             class="register-hint"
             type="primary"
             @click="$router.push({ path: '/login' })"
-            >立即登录</el-link
-          >
+            >立即登录</el-link>
         </div>
         <el-button type="primary" @click="register">注册</el-button>
       </div>

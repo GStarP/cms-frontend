@@ -27,19 +27,9 @@
               <i class="el-icon-arrow-down el-icon--right"></i>
             </div>
             <el-dropdown-menu>
-              <el-dropdown-item
-                ><span @click="logout()">登出</span></el-dropdown-item
-              >
-              <el-dropdown-item
-                ><span @click="$router.push({ path: '/user/history/consume' })"
-                  >消费记录</span
-                ></el-dropdown-item
-              >
-              <el-dropdown-item
-                ><span @click="$router.push({ path: '/user/ticket' })"
-                  >购票记录</span
-                ></el-dropdown-item
-              >
+              <el-dropdown-item><span @click="$router.push({ path: '/user/history/consume' })">消费记录</span></el-dropdown-item>
+              <el-dropdown-item><span @click="$router.push({ path: '/user/ticket' })">购票记录</span></el-dropdown-item>
+              <el-dropdown-item><span @click="logout()">登出</span></el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -48,8 +38,7 @@
             type="primary"
             :underline="false"
             @click="$router.push({ path: '/login' })"
-            >更多功能，点此登录</el-link
-          >
+            >更多功能，点此登录</el-link>
         </template>
       </el-header>
       <el-main>
@@ -168,6 +157,18 @@ $headerHeight: 64px;
   font-size: 1rem;
   &:hover {
     cursor: pointer;
+  }
+}
+.el-dropdown-menu__item {
+  display: flex;
+  justify-content: center;
+
+  line-height: 48px;
+
+  > span {
+    line-height: 48px;
+
+    font-size: 16px;
   }
 }
 .nav-menu {

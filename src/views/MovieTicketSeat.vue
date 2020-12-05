@@ -69,16 +69,14 @@
               v-for="seat of selectedSeats"
               :key="scheduleId + 'r' + seat.rowIndex + 'c' + seat.columnIndex"
               effect="plain"
-              >{{ seat.rowIndex + 1 }} 排 {{ seat.columnIndex + 1 }} 座</el-tag
-            >
+              >{{ seat.rowIndex + 1 }} 排 {{ seat.columnIndex + 1 }} 座</el-tag>
           </div>
         </div>
         <el-button
           type="primary"
           :disabled="selectedSeats.length === 0"
           @click="lockSeat"
-          >确认选座</el-button
-        >
+          >确认选座</el-button>
       </div>
     </div>
   </div>

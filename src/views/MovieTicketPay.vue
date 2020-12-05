@@ -39,11 +39,9 @@
             }}</template>
           </el-table-column>
           <el-table-column label="座位">
-            <template slot-scope="scope"
-              >{{ scope.row.rowIndex + 1 }}排{{
+            <template slot-scope="scope">{{ scope.row.rowIndex + 1 }}排{{
                 scope.row.columnIndex + 1
-              }}座</template
-            >
+              }}座</template>
           </el-table-column>
         </el-table>
         <div class="movie-ticket-pay__total-fare">
@@ -60,16 +58,13 @@
             :key="'coupon' + coupon.id"
             @click="onCouponSelectChange(i)"
             :effect="couponEffect(i)"
-            >满 {{ coupon.targetAmount }} 减 {{ coupon.discountAmount }}</el-tag
-          >
+            >满 {{ coupon.targetAmount }} 减 {{ coupon.discountAmount }}</el-tag>
         </div>
         <div class="movie-ticket-pay__operation">
           <div class="movie-ticket-pay__real-fare">
             实际支付：<span>￥</span><span>{{ realFare.toFixed(2) }}</span>
           </div>
-          <el-button type="primary" :disabled="totalFare <= 0" @click="startPay"
-            >确认支付</el-button
-          >
+          <el-button type="primary" :disabled="totalFare <= 0" @click="startPay">确认支付</el-button>
         </div>
       </div>
     </div>

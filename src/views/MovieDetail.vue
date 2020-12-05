@@ -16,14 +16,12 @@
             </el-tag>
             <el-tag type="danger" effect="dark">
               <i class="el-icon-star-off" />
-              {{ movieDetail.likeCount }}人想看</el-tag
-            >
+              {{ movieDetail.likeCount }}人想看</el-tag>
             <el-tag
               v-for="type in typeList"
               :key="movieId + 'type' + type"
               effect="dark"
-              >{{ type }}</el-tag
-            >
+              >{{ type }}</el-tag>
           </div>
           <div class="movie-info__text">
             <span>导演：</span>{{ text(movieDetail.director) }}
@@ -45,8 +43,7 @@
             icon="heart"
             :color="likeColor"
             @click="updateLikeMovie"
-            >{{ likeText }}</icon-button
-          >
+            >{{ likeText }}</icon-button>
         </div>
       </div>
     </div>
@@ -68,9 +65,7 @@
       </el-tabs>
       <div v-else class="no-movie-schedule">
         <span>暂无排片，不如</span>
-        <el-link type="primary" @click="$router.push({ path: '/movie' })"
-          >看看其它电影</el-link
-        >
+        <el-link type="primary" @click="$router.push({ path: '/movie' })">看看其它电影</el-link>
       </div>
     </div>
   </div>

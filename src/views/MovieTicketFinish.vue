@@ -11,13 +11,9 @@
       />
       <div class="movie-ticket-finish__hint"></div>
       <div class="movie-ticket-finish__operation">
-        <el-button type="primary" @click="$router.push('/movie')"
-          >查看更多电影</el-button
-        >
+        <el-button type="primary" @click="$router.push('/movie')">查看更多电影</el-button>
         <!-- TODO 跳转至出票 -->
-        <el-button type="danger" @click="$router.push('/movie')"
-          >前往确认出票</el-button
-        >
+        <el-button type="danger" @click="$router.push('/movie')">前往确认出票</el-button>
       </div>
     </div>
   </div>

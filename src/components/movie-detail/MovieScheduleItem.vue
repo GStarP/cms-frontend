@@ -13,8 +13,7 @@
       class="movie-schedule-item__buy"
       type="primary"
       @click="buyTicket(schedule.movieId, schedule.id)"
-      >选座购票</el-button
-    >
+      >选座购票</el-button>
   </div>
 </template>
 

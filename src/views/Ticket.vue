@@ -40,23 +40,20 @@
               @click="issueMyTicket(scope.row)"
               v-if="scope.row.state == 1"
               plain
-              >出票</el-button
-            >
+              >出票</el-button>
             <el-button
               size="mini"
               type="danger"
               @click="refundMyTicket(scope.row)"
               v-if="scope.row.state == 1"
               plain
-              >退票</el-button
-            >
+              >退票</el-button>
             <el-button
               size="mini"
               type="danger"
               @click="deleteMyTicket(scope.row)"
               v-if="scope.row.state > 1"
-              >删除记录</el-button
-            >
+              >删除记录</el-button>
             <!-- 此处需要增加一个跳转，链接未定 -->
             <el-button
               size="mini"
@@ -64,15 +61,13 @@
               @click="handleEdit(scope.$index, scope.row)"
               v-if="scope.row.state == 0"
               plain
-              >付款</el-button
-            >
+              >付款</el-button>
             <el-button
               size="mini"
               type="danger"
               @click="cancelMyTicket(scope.row)"
               v-if="scope.row.state == 0"
-              >取消</el-button
-            >
+              >取消</el-button>
           </template>
         </el-table-column>
       </el-table>
