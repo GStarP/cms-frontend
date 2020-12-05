@@ -36,6 +36,14 @@ const routes = [
         meta: {
           title: "选座购票"
         }
+      },
+      {
+        path: "/user/ticket",
+        component: () => import("@/views/Ticket.vue"),
+        props: true,
+        meta: {
+          title: "购票记录"
+        }
       }
     ]
   },
