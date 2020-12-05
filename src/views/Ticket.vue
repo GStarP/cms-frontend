@@ -20,7 +20,7 @@
         <el-table-column
           prop="stateText"
           label="状态"
-          width="80"
+          width="90"
           :filters="[
             { text: '未完成', value: '未完成' },
             { text: '已完成', value: '已完成' },
@@ -31,6 +31,12 @@
           :filter-method="filterTag"
           filter-placement="bottom-end"
         >
+          <template slot-scope="scope">
+            <div class="ticket-state">
+              <div class="circle" :style="stateColor(scope.row.state)"/>
+              <div>{{ scope.row.stateText }}</div>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column label="操作" min-width="120">
           <template slot-scope="scope">
@@ -268,6 +274,21 @@ export default {
         return "success-row";
       }
       return "";
+    },
+    stateColor(state) {
+      let style = 'background-color: '
+      if (state === 0) {
+        style += '#E6A23C'
+      } else if (state === 1) {
+        style += '#409EFF'
+      } else if (state === 2) {
+        style += '#F56C6C'
+      } else if (state === 3) {
+        style += '#67C23A'
+      } else {
+        style += '#909399'
+      }
+      return style
     }
   },
   computed: {
@@ -326,6 +347,19 @@ Date.prototype.Format = function(fmt) {
 
   tr >th:first-child, td:first-child {
     padding-left: 8px;
+  }
+}
+.ticket-state {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .circle {
+    $size: 8px;
+    height: $size;
+    width: $size;
+    border-radius: 50%;
+    margin-right: 6px;
   }
 }
 .el-table .warning-row {
