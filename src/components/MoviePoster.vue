@@ -1,10 +1,10 @@
 <template>
   <div class="movie-poster">
-    <div class="movie-poster-content" @click="open">
+    <div class="movie-poster-content" @click="toMovieDeatil">
       <img class="movie-img" :alt="name" :src="img" />
       <div class="movie-poster-summary">
         <div class="movie-name">{{ name }}</div>
-        <div class="movie-like-count">{{ like || 0 }}人想看</div>
+        <div class="movie-like-count">❤ {{ like || 0 }}</div>
       </div>
     </div>
     <el-dialog :title="name" :visible.sync="movieDetailVisible">
@@ -15,8 +15,7 @@
 </template>
 
 <script>
-import { getMovieDetail } from "@/api/movie";
-
+// TODO hover 可见电影信息
 export default {
   props: ["img", "id", "name", "like", "action"],
   name: "MoviePoster",
@@ -27,20 +26,10 @@ export default {
     };
   },
   methods: {
-    open() {
-      const loading = this.$loading.service();
-      getMovieDetail(this.$props.id)
-        .then(res => res.content)
-        .then(res => {
-          this.movieDetail = res;
-          loading.close();
-          this.movieDetailVisible = true;
-        })
-        .catch(e => {
-          console.log(e);
-          loading.close();
-          this.$message.error("加载电影详情失败！");
-        });
+    toMovieDeatil() {
+      this.$router.push({
+        path: `/movie-detail/${this.id}`
+      })
     }
   }
 };
@@ -48,20 +37,23 @@ export default {
 
 <style scoped lang="scss">
 .movie-poster {
-  margin: 20px 30px 20px 0;
-  border: 1px solid #88888820;
+  margin: 12px 24px 24px 0;
+  border: 1px solid #e5e5e5;
 
   &:hover {
     cursor: pointer;
-    box-shadow: 1px 1px 6px #888888;
-    border: 1px solid #88888880;
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0 5px 13px rgba(0,0,0,.2);
+
+    .movie-sales {
+      color: white;
+      background: $primary;
+    }
   }
 }
 
 .movie-poster-content {
   position: relative;
-  height: 250px;
+  height: 220px;
 }
 
 .movie-sales {
@@ -70,20 +62,15 @@ export default {
   justify-content: center;
   color: $primary;
 
+  letter-spacing: 2px;
   padding: 10px;
+  padding-right: 8px;
   font-size: 14px;
-
-  &:hover {
-    cursor: pointer;
-    color: white;
-    background: $primary;
-    transition: all 0.3s ease-in-out;
-  }
 }
 
 .movie-img {
-  width: 180px;
-  height: 250px;
+  width: 160px;
+  height: 220px;
 }
 
 .movie-poster-summary {
@@ -93,33 +80,27 @@ export default {
   justify-content: space-between;
 
   color: white;
-  font-size: 16px;
-  margin-top: -75px;
+  font-size: 14px;
+  margin-top: -70px;
   margin-bottom: 0;
   position: absolute;
   padding: 40px 0 0;
   width: 100%;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
-
-  &:hover {
-    margin-top: -95px;
-    padding: 60px 0 0;
-    transition: all 0.3s ease-in-out;
-  }
 }
 
 .movie-name {
   /*防止文本过长将父容器撑开*/
-  width: 80px;
-  padding-left: 10px;
-  padding-bottom: 10px;
+  width: 96px;
+  padding-left: 8px;
+  padding-bottom: 8px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .movie-like-count {
-  padding-right: 10px;
-  padding-bottom: 10px;
+  padding-right: 8px;
+  padding-bottom: 8px;
 }
 </style>

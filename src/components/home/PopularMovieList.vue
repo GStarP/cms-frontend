@@ -1,6 +1,6 @@
 <template>
   <div class="popular-movie-list">
-    <div class="popular-movie-title">
+    <div class="section-title">
       正在热映
     </div>
     <div class="popular-movie-grid">
@@ -54,6 +54,12 @@ export default {
 
 <style scoped lang="scss">
 .popular-movie-list {
+  .section-title {
+    $h: 18px;
+    height: $h;
+    line-height: $h;
+    font-size: 18px;
+  }
 }
 
 .popular-movie-title {

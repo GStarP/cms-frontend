@@ -2,7 +2,7 @@
   <div class="movie-rank-item">
     <div class="movie-rank-item-left">
       <div :class="indexClassName">{{ index }}</div>
-      <div :class="nameClassName">{{ name }}</div>
+      <div class="movie-rank-item__name" :class="nameClassName">{{ name }}</div>
     </div>
     <div class="movie-rank-item-value">{{ boxOffice || 0 }}</div>
   </div>
@@ -35,8 +35,6 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  height: 35px;
-  line-height: 35px;
   padding: 10px 5px 10px;
 
   &:hover {
@@ -50,6 +48,10 @@ export default {
   justify-content: left;
   /*防止文本过长将父容器撑开*/
   width: 250px;
+
+  .movie-rank-item__name {
+    flex: 1;
+  }
 }
 
 .movie-rank-item-value {
@@ -58,7 +60,6 @@ export default {
 
 .movie-rank-item-index {
   /*font-size: 18px;*/
-  font-style: italic;
   font-weight: bold;
   width: 26px;
 }
@@ -74,26 +75,26 @@ export default {
 
 .movie-rank-item-index-others {
   color: #999;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .movie-rank-item-name-others {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .movie-rank-item-top {
   color: $primary;
 
   &1 {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   &2 {
-    font-size: 20px;
+    font-size: 17px;
   }
 
   &3 {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 </style>

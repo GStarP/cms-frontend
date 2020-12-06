@@ -1,6 +1,6 @@
 <template>
   <div class="ranking-movie-list">
-    <div class="ranking-movie-title">票房排行</div>
+    <div class="section-title">票房排行</div>
     <div
       class="ranking-movie-list-content"
       v-for="index in rankingMovieList.length"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import MovieRankItem from "@/components/MovieRankItem";
+import MovieRankItem from "@/components/home/MovieRankItem";
 import { getRankingMovieList } from "@/api/movie";
 export default {
   name: "RankingMovieList",
@@ -47,6 +47,12 @@ export default {
 
 <style scoped lang="scss">
 .ranking-movie-list {
+  .section-title {
+    $h: 18px;
+    height: $h;
+    line-height: $h;
+    font-size: 18px;
+  }
 }
 
 .ranking-movie-title {

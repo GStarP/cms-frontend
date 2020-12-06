@@ -1,18 +1,22 @@
 <template>
   <div class="banner">
-    <el-carousel :interval="4000" type="card" height="300px">
-      <el-carousel-item v-for="index in bannerInfo.length" :key="index">
+    <div class="banner__wrapper">
+      <el-carousel class="banner-main" :interval="4000" style="width: 800px" height="400px">
+      <el-carousel-item v-for="index in bannerInfo.length" :key="'banner' + index">
         <el-image
+          class="banner-img"
           @click="this.$router.push({ path: bannerInfo[index - 1].src })"
           :src="bannerInfo[index - 1].img"
           :fit="fit"
         ></el-image>
       </el-carousel-item>
     </el-carousel>
+    </div>
   </div>
 </template>
 
 <script>
+// TODO 仍需修改
 import { getBannerInfo } from "@/api/movie";
 
 export default {
@@ -53,19 +57,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: auto;
-
-  :nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  :nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
+.banner__wrapper {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+.banner-img {
+  height: 100%;
+  width: 100%;
 }
 </style>

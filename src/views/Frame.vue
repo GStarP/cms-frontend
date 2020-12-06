@@ -19,9 +19,10 @@
           >
             {{ item.label }}
           </div>
-          <search-bar/>
         </div>
-        <template v-if="$store.state.userInfo.id > 0">
+        <div class="header__right">
+          <search-bar style="margin-right: 16px"/>
+          <template v-if="$store.state.userInfo.id > 0">
           <el-dropdown class="user-menu">
             <div class="username">
               {{ $store.state.userInfo.username }}
@@ -41,6 +42,7 @@
             @click="$router.push({ path: '/login' })"
             >更多功能，点此登录</el-link>
         </template>
+        </div>
       </el-header>
       <el-main>
         <div class="content">
@@ -127,7 +129,7 @@ $headerHeight: 64px;
 
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0 24px;
   }
 
@@ -164,32 +166,13 @@ $headerHeight: 64px;
   }
 }
 
-.user-menu {
-  height: $headerHeight;
-  line-height: $headerHeight;
-  font-size: 1rem;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-.el-dropdown-menu__item {
-  display: flex;
-  justify-content: center;
-
-  line-height: 48px;
-
-  > span {
-    line-height: 48px;
-
-    font-size: 16px;
-  }
-}
-
 .nav-menu {
   height: $headerHeight;
   display: flex;
   flex-direction: row;
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .nav-menu-item {
@@ -216,7 +199,38 @@ $headerHeight: 64px;
   }
 }
 
+.header__right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  // 维持 nav-menu 居中
+  margin-left: -168px;
+}
+
+.user-menu {
+  height: $headerHeight;
+  line-height: $headerHeight;
+  font-size: 1rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+.el-dropdown-menu__item {
+  display: flex;
+  justify-content: center;
+
+  line-height: 48px;
+
+  >span {
+    line-height: 48px;
+
+    font-size: 16px;
+  }
+}
+
 .content {
-  width: 1400px;
+  width: 1280px;
 }
 </style>

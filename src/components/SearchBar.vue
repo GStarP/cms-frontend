@@ -1,9 +1,10 @@
 <template>
   <div class="search-bar">
-    <el-input placeholder="搜索电影" v-model="searchInput">
+    <el-input placeholder="输入电影名称进行搜索" v-model="searchInput">
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
+      <el-button slot="append" @click="searchMovies">搜索</el-button>
     </el-input>
-    <el-button type="primary" @click="searchMovies">搜索</el-button>
+    
   </div>
 </template>
 
@@ -47,11 +48,6 @@ export default {
 }
 
 .el-input {
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.el-button {
   margin-left: 5px;
   margin-right: 5px;
 }

@@ -4,7 +4,7 @@
     <div class="home-movie-list">
       <div class="home-movie-list-main">
         <popular-movie-list class="home-movie-popular-list"/>
-        <coming-movie-list class="home-movie-coming-list"/>
+        <!-- <coming-movie-list class="home-movie-coming-list"/> -->
       </div>
       <ranking-movie-list class="home-movie-list-side"/>
     </div>
@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import Banner from "@/components/Banner";
-import ComingMovieList from "@/components/ComingMovieList";
-import PopularMovieList from "@/components/PopularMovieList";
-import RankingMovieList from "@/components/RankingMovieList";
+import Banner from "@/components/home/Banner";
+import ComingMovieList from "@/components/home/ComingMovieList";
+import PopularMovieList from "@/components/home/PopularMovieList";
+import RankingMovieList from "@/components/home/RankingMovieList";
 
 export default {
   components: {
