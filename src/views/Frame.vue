@@ -19,6 +19,7 @@
           >
             {{ item.label }}
           </div>
+          <search-bar/>
         </div>
         <template v-if="$store.state.userInfo.id > 0">
           <el-dropdown class="user-menu">
@@ -43,7 +44,7 @@
       </el-header>
       <el-main>
         <div class="content">
-          <router-view />
+          <router-view/>
         </div>
       </el-main>
     </el-container>
@@ -51,6 +52,8 @@
 </template>
 
 <script>
+import SearchBar from "@/components/SearchBar";
+
 export default {
   data() {
     return {
@@ -94,8 +97,11 @@ export default {
         password: undefined,
         auth: undefined
       });
-      this.$router.push({ path: "/login" });
+      this.$router.push({path: "/login"});
     }
+  },
+  components: {
+    SearchBar
   }
 };
 </script>
@@ -105,13 +111,16 @@ $headerHeight: 64px;
 
 .frame {
   min-height: 100vh;
+
   section {
     min-height: 100vh;
   }
+
   header {
     position: fixed;
     left: 0;
     right: 0;
+    z-index: 999;
 
     background-color: #fff;
     border-bottom: 1px solid #dcdfe6;
@@ -121,12 +130,14 @@ $headerHeight: 64px;
     justify-content: space-between;
     padding: 0 24px;
   }
+
   main {
     margin-top: $headerHeight;
     display: flex;
     justify-content: center;
   }
 }
+
 .header-icon-title {
   display: flex;
   flex-direction: row;
@@ -143,6 +154,7 @@ $headerHeight: 64px;
     height: $size;
     margin-right: 8px;
   }
+
   .title {
     user-select: none;
     line-height: $headerHeight;
@@ -151,10 +163,12 @@ $headerHeight: 64px;
     color: #2c2c2c;
   }
 }
+
 .user-menu {
   height: $headerHeight;
   line-height: $headerHeight;
   font-size: 1rem;
+
   &:hover {
     cursor: pointer;
   }
@@ -171,11 +185,13 @@ $headerHeight: 64px;
     font-size: 16px;
   }
 }
+
 .nav-menu {
   height: $headerHeight;
   display: flex;
   flex-direction: row;
 }
+
 .nav-menu-item {
   user-select: none;
 
@@ -184,18 +200,22 @@ $headerHeight: 64px;
   width: $headerHeight * 1.2;
   font-size: 1rem;
   text-align: center;
+
   &:hover {
     cursor: pointer;
     color: $primary;
   }
 }
+
 .nav-menu-item-active {
   background-color: $primary;
   color: #fff;
+
   &:hover {
     color: #fff;
   }
 }
+
 .content {
   width: 1400px;
 }
