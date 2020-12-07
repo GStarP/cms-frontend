@@ -128,20 +128,22 @@ export default {
       }
     },
     updateLikeMovie() {
-      const loading = this.$loading.service();
-      toggleLikeMovie(
-        this.$store.state.userInfo.id,
-        this.movieId,
-        this.movieDetail.islike
-      )
-        .then(() => {
-          this.updateMovieDetail();
-          loading.close();
-        })
-        .catch(e => {
-          console.log(e);
-          loading.close();
-        });
+      this.$requireLogin().then(() => {
+        const loading = this.$loading.service();
+        toggleLikeMovie(
+          this.$store.state.userInfo.id,
+          this.movieId,
+          this.movieDetail.islike
+        )
+          .then(() => {
+            this.updateMovieDetail();
+            loading.close();
+          })
+          .catch(e => {
+            console.log(e);
+            loading.close();
+          });
+      }).catch(e => {})
     },
     updateMovieScheduleList() {
       const loading = this.$loading.service();

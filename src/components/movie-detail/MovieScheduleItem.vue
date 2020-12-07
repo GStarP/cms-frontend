@@ -25,9 +25,11 @@ export default {
       return time.substr(11, 5);
     },
     buyTicket(movieId, scheduleId) {
-      this.$router.push({
-        path: `/movie-ticket-seat/${movieId}/${scheduleId}`
-      });
+      this.$requireLogin().then(() => {
+        this.$router.push({
+          path: `/movie-ticket-seat/${movieId}/${scheduleId}`
+        });
+      }).catch(e => {})
     }
   }
 };
