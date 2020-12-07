@@ -16,7 +16,13 @@ import {
   Tooltip,
   Tabs,
   TabPane,
-  Icon
+  Icon,
+  Divider,
+  Dialog,
+  Pagination,
+  Row,
+  Col,
+  ButtonGroup
 } from "element-ui";
 
 Vue.use(Container);
@@ -36,3 +42,9 @@ Vue.use(Tooltip);
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Icon);
+Vue.use(Divider);
+Vue.use(Dialog);
+Vue.use(Pagination);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(ButtonGroup);
