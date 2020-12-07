@@ -24,7 +24,9 @@ import {
   Carousel,
   CarouselItem,
   Image,
-  Dialog
+  Dialog,
+  Steps,
+  Step
 } from "element-ui";
 
 Vue.use(Container);
@@ -52,3 +54,5 @@ Vue.use(Carousel);
 Vue.use(CarouselItem);
 Vue.use(Image);
 Vue.use(Dialog);
+Vue.use(Steps);
+Vue.use(Step);
