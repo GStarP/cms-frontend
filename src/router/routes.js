@@ -65,6 +65,14 @@ const routes = [
         meta: {
           title: "购票记录"
         }
+      },
+      {
+        path: "/user/coupon",
+        component: () => import("@/views/CouponList.vue"),
+        props: true,
+        meta: {
+          title: "优惠券"
+        }
       }
     ]
   },

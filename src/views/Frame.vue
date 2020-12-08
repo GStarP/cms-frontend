@@ -31,6 +31,7 @@
             <el-dropdown-menu>
               <el-dropdown-item><span @click="$router.push({ path: '/user/history/consume' })">消费记录</span></el-dropdown-item>
               <el-dropdown-item><span @click="$router.push({ path: '/user/ticket' })">购票记录</span></el-dropdown-item>
+              <el-dropdown-item><span @click="$router.push({ path: '/user/coupon' })">优惠券</span></el-dropdown-item>
               <el-dropdown-item><span @click="logout()">登出</span></el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
