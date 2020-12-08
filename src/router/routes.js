@@ -38,8 +38,9 @@ const routes = [
         }
       },
       {
-        path: "/movie-ticket-pay",
+        path: "/movie-ticket-pay/:scheduleId",
         component: () => import("@/views/MovieTicketPay.vue"),
+        props: true,
         meta: {
           title: "支付"
         }

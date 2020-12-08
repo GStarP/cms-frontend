@@ -60,11 +60,10 @@
               @click="deleteMyTicket(scope.row)"
               v-if="scope.row.state > 1"
               >删除记录</el-button>
-            <!-- 此处需要增加一个跳转，链接未定 -->
             <el-button
               size="mini"
               type="success"
-              @click="handleEdit(scope.$index, scope.row)"
+              @click="$router.push({ path: `/movie-ticket-pay/${scope.row.scheduleId}` })"
               v-if="scope.row.state == 0"
               plain
               >付款</el-button>

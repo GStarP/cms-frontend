@@ -117,6 +117,7 @@ import { getVIPCardByUserId } from "@/api/vip-card";
 
 export default {
   components: { MovieTicketStep, NumberPasswordInput },
+  props: ['scheduleId'],
   data() {
     return {
       payInfo: {
@@ -149,7 +150,7 @@ export default {
   methods: {
     async updatePayInfo() {
       const loading = this.$loading.service();
-      const res = await getTicketToPay(this.$store.state.userInfo.id);
+      const res = await getTicketToPay(this.$store.state.userInfo.id, this.scheduleId);
       this.payInfo = res.content;
       loading.close();
     },
@@ -195,7 +196,7 @@ export default {
     },
     onBankCardPasswordFinish() {
       const loading = this.$loading.service({
-        text: "正在调用银行支付接口..."
+        text: "正在调取银行卡支付服务..."
       });
       setTimeout(() => {
         loading.close();
