@@ -1,130 +1,83 @@
 <template>
-  <div class="membership">
-    <el-card class="member-card">
-      <div class="member-title">
-        <span>会员权益</span>
-        <el-divider direction="vertical"></el-divider>
-        <span>{{ vipCard.cardType.name }}</span>
-        <el-button-group class="member-oprations" v-if="isVIP">
-          <el-tooltip class="item" content="更多会员权益" placement="top-start">
-            <el-button
-              circle
-              type="primary"
-              icon="el-icon-more"
-              size="mini"
-              @click="cardChosenDialog.visible = true"
-            ></el-button>
-          </el-tooltip>
-        </el-button-group>
-      </div>
-      <el-divider></el-divider>
+  <div class="membership__wrapper">
+    <div class="membership">
+      <div class="section-title">会员卡</div>
       <div class="member-info">
-        <!-- 会员信息 -->
-        <template v-if="isVIP">
-          <div class="member-info__text">
-            <span class="left">入会日期：</span>
-            <span class="right">{{ vipCard.joinDate }}</span>
+          <vip-card :cardInfo="vipCard" :sell="false"></vip-card>
+          <el-divider/>
+          <div class="member-yes" v-if="vipCard.id > 0">
+            <!-- <div>会员卡余额：<span>{{ vipCard.balance.toFixed(2) }}</span> 元</div> -->
+            <el-button type="primary">充值</el-button>
+            <el-badge value="更多优惠" class="hot">
+              <el-button type="success">换卡</el-button>
+            </el-badge>
           </div>
-          <div class="member-info__text">
-            <span class="left">到期日期：</span>
-            <span class="right">永久有效</span>
-          </div>
-          <div class="member-info__text">
-            <span class="left">充值优惠：</span>
-            <span class="right">充{{ vipCard.cardType.topUpTarget }}送{{
-                vipCard.cardType.topUpDiscount
-              }}</span>
-          </div>
-          <div class="member-info__text">
-            <span class="left">余额：</span>
-            <span class="right">¥ {{ vipCard.balance }}</span>
-          </div>
-          <el-divider></el-divider>
-          <el-button
-            class="member-info__charge"
-            type="primary"
-            @click="chargeDialog.visible = true"
-            >立即充值</el-button>
-          <!-- 充值对话框 -->
-          <el-dialog title="充值" :visible.sync="chargeDialog.visible">
-            <el-input
-              type="number"
-              min="0"
-              oninput="validity.valid||(value='');"
-              v-model="chargeDialog.amount"
-              placeholder="请输入充值金额"
-            ></el-input>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="chargeDialog.visible = false">取 消</el-button>
-              <el-button type="primary" @click="chargeVIPCard()">充 值</el-button>
-            </div>
-          </el-dialog>
-        </template>
-        <!-- 非会员信息 -->
-        <template v-else>
-          <div class="no-member-info__text">
-            <span>您尚未选择自己的会员权益</span>
-          </div>
-          <el-divider></el-divider>
-          <el-button
-            round
-            class="no-member-info__join"
-            type="primary"
-            icon="el-icon-plus"
-            @click="cardChosenDialog.visible = true"
-            >添加您的会员权益</el-button>
-        </template>
-        <!-- 权益选择对话框 -->
-        <el-dialog
-          title="选择您的会员权益"
-          :visible.sync="cardChosenDialog.visible"
-        >
-          <div class="card-type-wrapper">
-            <div v-if="isVIP" class="member-change-warining">
-              <span>切换会员权益后余额将按8折重新计入</span>
-            </div>
-            <div class="card-type-list">
-              <el-row>
-                <el-col
-                  :span="6"
-                  v-for="(item, index) of cardTypePage"
-                  :key="item.id"
-                  :offset="index > 0 ? 2 : 0"
-                  @click.native="chooseCardType(item.id)"
-                >
-                  <el-card
-                    class="card-type-item-card"
-                    :class="{
-                      'active-card':
-                        cardChosenDialog.cardTypeChosenId === item.id
-                    }"
-                  >
-                    <div class="card-type-name">{{ item.name }}</div>
-                    <div class="card-type-prive">¥ {{ item.price }}</div>
-                    <div class="card-type-description">
-                      充{{ item.topUpTarget }}送{{ item.topUpDiscount }}
-                    </div>
-                  </el-card>
-                </el-col>
-              </el-row>
-            </div>
-            <el-pagination
-              small
-              hide-on-single-page
-              layout="prev, pager, next"
-              :current-page.sync="cardChosenDialog.currentPage"
-              :page-size="cardChosenDialog.pageSize"
-              :total="cardChosenDialog.cardTypes.length"
-            >
-            </el-pagination>
-          </div>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="cardChosenDialog.visible = false">取 消</el-button>
-            <el-button type="primary" @click="confirmMembership()">确 认</el-button>
-          </div>
-        </el-dialog>
+          <div class="member-no" v-else></div>
       </div>
-    </el-card>
+    </div>
+    <!-- 充值弹窗 -->
+    <el-dialog title="充值" :visible.sync="chargeDialog.visible">
+      <el-input
+        type="number"
+        min="0"
+        oninput="validity.valid||(value='');"
+        v-model="chargeDialog.amount"
+        placeholder="请输入充值金额"
+      ></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="chargeDialog.visible = false">取 消</el-button>
+        <el-button type="primary" @click="chargeVIPCard()">充 值</el-button>
+      </div>
+    </el-dialog>
+    <!-- 办理/更换会员卡弹窗 -->
+    <el-dialog
+      title="选择您的会员权益"
+      :visible.sync="cardChosenDialog.visible"
+    >
+      <div class="card-type-wrapper">
+        <div v-if="isVIP" class="member-change-warining">
+          <span>切换会员权益后余额将按8折重新计入</span>
+        </div>
+        <div class="card-type-list">
+          <el-row>
+            <el-col
+              :span="6"
+              v-for="(item, index) of cardTypePage"
+              :key="item.id"
+              :offset="index > 0 ? 2 : 0"
+              @click.native="chooseCardType(item.id)"
+            >
+              <el-card
+                class="card-type-item-card"
+                :class="{
+                  'active-card':
+                    cardChosenDialog.cardTypeChosenId === item.id
+                }"
+              >
+                <div class="card-type-name">{{ item.name }}</div>
+                <div class="card-type-prive">¥ {{ item.price }}</div>
+                <div class="card-type-description">
+                  充{{ item.topUpTarget }}送{{ item.topUpDiscount }}
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
+        <el-pagination
+          small
+          hide-on-single-page
+          layout="prev, pager, next"
+          :current-page.sync="cardChosenDialog.currentPage"
+          :page-size="cardChosenDialog.pageSize"
+          :total="cardChosenDialog.cardTypes.length"
+        >
+        </el-pagination>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cardChosenDialog.visible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmMembership()">确 认</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -137,7 +90,12 @@ import {
   changeVIPCard
 } from "@/api/membership";
 import { formatDate } from "@/utils/time";
+import VIPCard from '@/components/membership/VIPCard.vue'
+
 export default {
+  components: {
+    'vip-card': VIPCard
+  },
   data() {
     return {
       vipCard: {
@@ -291,40 +249,57 @@ export default {
 
 <style lang="scss">
 .membership {
-  justify-content: center;
-  align-items: center;
-}
+  display: flex;
+  flex-direction: column;
 
-.member-title {
-  color: $primary;
+  margin-top: 16px;
 
-  span {
-    font-size: 1.2rem;
-    font-weight: bold;
+  &__wrapper {
+    display: flex;
+    justify-content: center;
   }
 
-  .el-button {
-    margin-left: 10px;
-  }
 }
 
 .member-info {
-  margin-top: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  &__text {
+  .vip-card {
     margin-top: 8px;
-    span {
+  }
+
+  .el-divider {
+    margin: 36px 0;
+  }
+}
+
+.member-yes {
+  display: flex;
+  flex-direction: column;
+  
+  width: 100%;
+
+  >div {
+    margin-bottom: 16px;
+    font-size: 18px;
+
+    >span {
       font-weight: bold;
     }
-    div {
-      @include text-ellipsis(3);
-      font-size: 15px;
-      margin-top: 4px;
-    }
   }
+
+  button {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  sup {
+    margin-right: 40px;
+    margin-top: 4px;
+  }
+
 }
 
 .el-carousel__item h3 {

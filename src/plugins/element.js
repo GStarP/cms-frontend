@@ -31,7 +31,8 @@ import {
   Pagination,
   Row,
   Col,
-  ButtonGroup
+  ButtonGroup,
+  Badge
 } from "element-ui";
 
 Vue.use(Container);
@@ -66,3 +67,4 @@ Vue.use(Pagination);
 Vue.use(Row);
 Vue.use(Col);
 Vue.use(ButtonGroup);
+Vue.use(Badge);

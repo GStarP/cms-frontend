@@ -16,9 +16,9 @@ globalAxios.interceptors.response.use(
     if (res.data.success) {
       return res;
     } else {
-      // 放行无会员权益的错误提示
+      // 放行无会员卡的错误提示
       if (res.data.message === '用户卡不存在')
-        return res;
+        return Promise.reject(res.data.message);
       Message.error(res.data.message);
       return Promise.reject(res.data.message);
     }
