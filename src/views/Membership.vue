@@ -31,11 +31,9 @@
           </div>
           <div class="member-info__text">
             <span class="left">充值优惠：</span>
-            <span class="right"
-              >充{{ vipCard.cardType.topUpTarget }}送{{
+            <span class="right">充{{ vipCard.cardType.topUpTarget }}送{{
                 vipCard.cardType.topUpDiscount
-              }}</span
-            >
+              }}</span>
           </div>
           <div class="member-info__text">
             <span class="left">余额：</span>
@@ -46,8 +44,7 @@
             class="member-info__charge"
             type="primary"
             @click="chargeDialog.visible = true"
-            >立即充值</el-button
-          >
+            >立即充值</el-button>
           <!-- 充值对话框 -->
           <el-dialog title="充值" :visible.sync="chargeDialog.visible">
             <el-input
@@ -59,9 +56,7 @@
             ></el-input>
             <div slot="footer" class="dialog-footer">
               <el-button @click="chargeDialog.visible = false">取 消</el-button>
-              <el-button type="primary" @click="chargeVIPCard()"
-                >充 值</el-button
-              >
+              <el-button type="primary" @click="chargeVIPCard()">充 值</el-button>
             </div>
           </el-dialog>
         </template>
@@ -77,8 +72,7 @@
             type="primary"
             icon="el-icon-plus"
             @click="cardChosenDialog.visible = true"
-            >添加您的会员权益</el-button
-          >
+            >添加您的会员权益</el-button>
         </template>
         <!-- 权益选择对话框 -->
         <el-dialog
@@ -125,12 +119,8 @@
             </el-pagination>
           </div>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="cardChosenDialog.visible = false"
-              >取 消</el-button
-            >
-            <el-button type="primary" @click="confirmMembership()"
-              >确 认</el-button
-            >
+            <el-button @click="cardChosenDialog.visible = false">取 消</el-button>
+            <el-button type="primary" @click="confirmMembership()">确 认</el-button>
           </div>
         </el-dialog>
       </div>
