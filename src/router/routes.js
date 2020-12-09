@@ -66,6 +66,14 @@ const routes = [
         meta: {
           title: "购票记录"
         }
+      },
+      {
+        path: "/membership",
+        component: () => import("@/views/Membership.vue"),
+        props: true,
+        meta: {
+          title: "会员权益"
+        }
       }
     ]
   },

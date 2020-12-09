@@ -26,7 +26,12 @@ import {
   Image,
   Dialog,
   Steps,
-  Step
+  Step,
+  Divider,
+  Pagination,
+  Row,
+  Col,
+  ButtonGroup
 } from "element-ui";
 
 Vue.use(Container);
@@ -56,3 +61,8 @@ Vue.use(Image);
 Vue.use(Dialog);
 Vue.use(Steps);
 Vue.use(Step);
+Vue.use(Divider);
+Vue.use(Pagination);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(ButtonGroup);
