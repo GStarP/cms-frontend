@@ -69,17 +69,7 @@
       </div>
     </div>
     <!-- 银行卡支付弹窗 -->
-    <el-dialog
-      class="bank-card-dialog"
-      title="银行卡支付"
-      :visible.sync="bankCardDialogShow"
-      :close-on-click-modal="false"
-      width="600px"
-      top="25vh"
-    >
-      <div class="bank-card-dialog__hint">请输入支付密码</div>
-      <number-password-input @finish="onBankCardPasswordFinish" />
-    </el-dialog>
+    <bank-card-pay :show.sync="bankCardDialogShow" @finish="onBankCardPayFinish"/>
     <!-- 会员卡支付弹窗 -->
     <el-dialog
       class="vip-card-dialog"
@@ -111,12 +101,12 @@
 
 <script>
 import MovieTicketStep from "@/components/movie-ticket/MovieTicketStep.vue";
-import NumberPasswordInput from "@/components/movie-ticket/NumberPasswordInput.vue";
+import BankCardPay from "@/components/movie-ticket/BankCardPay.vue";
 import { getTicketToPay, buyTicketByVIP, buyTicket } from "@/api/ticket";
 import { getVIPCardByUserId } from "@/api/vip-card";
 
 export default {
-  components: { MovieTicketStep, NumberPasswordInput },
+  components: { MovieTicketStep, BankCardPay },
   props: ['scheduleId'],
   data() {
     return {
@@ -194,7 +184,7 @@ export default {
         // TODO 跳转至充值页
       }
     },
-    onBankCardPasswordFinish() {
+    onBankCardPayFinish() {
       const loading = this.$loading.service({
         text: "正在调取银行卡支付服务..."
       });
@@ -430,21 +420,6 @@ export default {
 .el-dialog__header {
   padding-left: 30px;
   padding-top: 25px;
-}
-.bank-card-dialog {
-  display: flex;
-  flex-direction: column;
-
-  &__hint {
-    text-align: center;
-    font-weight: 300;
-    font-size: 18px;
-    margin-bottom: 24px;
-  }
-
-  .number-password-input {
-    margin-bottom: 72px;
-  }
 }
 .vip-card-dialog {
   display: flex;

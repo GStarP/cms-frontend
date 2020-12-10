@@ -39,6 +39,7 @@ export default {
         if (finish) {
           this.$emit("finish", this.numberList);
           console.log(this.numberList);
+          this.numberList = [null, null, null, null, null, null]
         }
       } else {
         const li = this.numberList.slice(0);
@@ -69,7 +70,7 @@ export default {
   }
 
   > input {
-    $size: 48px;
+    $size: 40px;
     height: $size;
     width: $size;
 
@@ -77,7 +78,7 @@ export default {
     border-radius: 4px;
 
     text-align: center;
-    font-size: 48px;
+    font-size: 40px;
     /* 显示文字而不显示光标 */
     color: transparent;
     text-shadow: 0px 0px 0px #333;

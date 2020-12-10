@@ -6,8 +6,7 @@
           <vip-card :cardInfo="vipCard" :sell="false"></vip-card>
           <el-divider/>
           <div class="member-yes" v-if="vipCard.id > 0">
-            <!-- <div>会员卡余额：<span>{{ vipCard.balance.toFixed(2) }}</span> 元</div> -->
-            <el-button type="primary">充值</el-button>
+            <el-button type="primary" @click="charge">充值</el-button>
             <el-badge value="更多优惠" class="hot">
               <el-button type="success">换卡</el-button>
             </el-badge>
@@ -15,20 +14,8 @@
           <div class="member-no" v-else></div>
       </div>
     </div>
-    <!-- 充值弹窗 -->
-    <el-dialog title="充值" :visible.sync="chargeDialog.visible">
-      <el-input
-        type="number"
-        min="0"
-        oninput="validity.valid||(value='');"
-        v-model="chargeDialog.amount"
-        placeholder="请输入充值金额"
-      ></el-input>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="chargeDialog.visible = false">取 消</el-button>
-        <el-button type="primary" @click="chargeVIPCard()">充 值</el-button>
-      </div>
-    </el-dialog>
+    <!-- 银行卡支付弹窗 -->
+    <bank-card-pay :show.sync="bankCardPayShow" @finish="onBankCardPayFinish"/>
     <!-- 办理/更换会员卡弹窗 -->
     <el-dialog
       title="选择您的会员权益"
@@ -91,34 +78,35 @@ import {
 } from "@/api/membership";
 import { formatDate } from "@/utils/time";
 import VIPCard from '@/components/membership/VIPCard.vue'
+import BankCardPay from '@/components/movie-ticket/BankCardPay.vue'
 
 export default {
   components: {
-    'vip-card': VIPCard
+    'vip-card': VIPCard,
+    BankCardPay
   },
   data() {
     return {
       vipCard: {
-        userId: 1,
+        userId: -1,
         id: -1,
-        balance: 0.0,
-        joinDate: "2020-01-01 00:00:00.000",
-        cardTypeId: 1,
+        balance: 0,
+        joinDate: "2020-01-01T00:00:00.000",
+        cardTypeId: -1,
         cardType: {
-          id: 1,
+          id: -1,
           name: "暂无权益",
           description: "",
-          price: 1.0,
-          topUpTarget: 1.0,
-          topUpDiscount: 1.0,
-          ticketTarget: 1.0,
-          ticketDiscount: 1.0
+          price: 0,
+          topUpTarget: 0,
+          topUpDiscount: 0,
+          ticketTarget: 0,
+          ticketDiscount: 0
         }
       },
-      chargeDialog: {
-        visible: false,
-        amount: null
-      },
+      bankCardPayShow: false,
+      bankCardPayType: 0,
+      topUpAmount: 0,
       cardChosenDialog: {
         visible: false,
         cardTypeChosenId: 0,
@@ -170,23 +158,32 @@ export default {
           loading.close();
         });
     },
-    chargeVIPCard() {
-      if (this.chargeDialog.amount <= 0) {
-        this.$message.warning("充值金额必须为正数");
-        return;
+    charge() {
+      this.$prompt('请输入充值金额', '会员卡充值', {
+        confirmButtonText: '银行卡支付',
+        inputPattern: /\d+/,
+        inputErrorMessage: '请输入数字，最多两位小数'
+      }).then(({ value }) => {
+        this.topUpAmount = value
+        this.bankCardPayType = 0
+        this.bankCardPayShow = true
+      }).catch(() => {})
+    },
+    onBankCardPayFinish() {
+      if (this.bankCardPayType === 0) {
+        const loading = this.$loading.service();
+        chargeVIPCard(this.vipCard.id, this.topUpAmount)
+          .then(res => {
+            this.$message.success("充值成功");
+            this.updateVIPCard();
+            loading.close();
+          })
+          .catch(e => {
+            console.log(e);
+            loading.close();
+          });
       }
-      const loading = this.$loading.service();
-      chargeVIPCard(this.vipCard.id, this.chargeDialog.amount)
-        .then(res => {
-          this.$message.success("充值成功", { duration: 500 });
-          this.chargeDialog.visible = false;
-          this.updateVIPCard();
-          loading.close();
-        })
-        .catch(e => {
-          console.log(e);
-          loading.close();
-        });
+      this.bankCardPayShow = false
     },
     chooseCardType(cardTypeId) {
       this.cardChosenDialog.cardTypeChosenId = cardTypeId;
@@ -328,11 +325,6 @@ export default {
 .card-type-list {
   margin-left: 56px;
   margin-bottom: 20px;
-}
-
-.el-dialog__title {
-  font-weight: bold;
-  color: $primary;
 }
 
 .el-pagination {
