@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     // 已登录用户信息
     userInfo: {
-      id: 6,
+      id: 12,
       // id: 0,
       username: "",
       password: "",

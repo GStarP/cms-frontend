@@ -5,13 +5,15 @@
       <div class="member-info">
           <vip-card :cardInfo="vipCard" :sell="false"></vip-card>
           <el-divider/>
-          <div class="member-yes" v-if="vipCard.id > 0">
+          <div class="member-yes" v-if="isVIP">
             <el-button type="primary" @click="charge">充值</el-button>
             <el-badge value="更多优惠" class="hot">
               <el-button type="success">换卡</el-button>
             </el-badge>
           </div>
-          <div class="member-no" v-else></div>
+          <div class="member-no" v-else>
+            <el-button type="primary" @click="charge">办卡</el-button>
+          </div>
       </div>
     </div>
     <!-- 银行卡支付弹窗 -->
@@ -87,23 +89,7 @@ export default {
   },
   data() {
     return {
-      vipCard: {
-        userId: -1,
-        id: -1,
-        balance: 0,
-        joinDate: "2020-01-01T00:00:00.000",
-        cardTypeId: -1,
-        cardType: {
-          id: -1,
-          name: "暂无权益",
-          description: "",
-          price: 0,
-          topUpTarget: 0,
-          topUpDiscount: 0,
-          ticketTarget: 0,
-          ticketDiscount: 0
-        }
-      },
+      vipCard: null,
       bankCardPayShow: false,
       bankCardPayType: 0,
       topUpAmount: 0,
@@ -227,7 +213,7 @@ export default {
   },
   computed: {
     isVIP() {
-      return this.vipCard.id !== -1;
+      return this.vipCard !== null && this.vipCard.cardType !== null
     },
     cardTypePage() {
       const start_idx =
@@ -297,6 +283,14 @@ export default {
     margin-top: 4px;
   }
 
+}
+
+.member-no {
+  width: 100%;
+  button {
+    width: 100%;
+    margin-bottom: 16px;
+  }
 }
 
 .el-carousel__item h3 {

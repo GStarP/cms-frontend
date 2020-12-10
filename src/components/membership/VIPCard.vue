@@ -1,15 +1,20 @@
 <template>
   <div class="vip-card">
     <div class="vip-card__background" :style="cardBackground"></div>
+    <!-- 无会员卡时显示的遮罩层 -->
+    <div class="vip-card__shade" v-if="!hasCard"><div>您还不是会员<br>赶快点击下方“办卡”加入我们吧</div></div>
+    <!-- 会员卡信息 -->
     <div class="vip-card__title">
-      <div>{{ cardInfo.cardType.name }}</div>
+      <div>{{  hasCard ? cardInfo.cardType.name : 'XXXXXX' }}</div>
       <img src="@/assets/img/vip.png" />
     </div>
-    <div class="vip-card__text"><span>充值优惠：</span>充 {{ cardInfo.cardType.topUpTarget }} 送 {{ cardInfo.cardType.topUpDiscount }}</div>
-    <div class="vip-card__text" v-if="sell"><span>办理价格：</span>{{ cardInfo.cardType.price }} 元</div>
-    <div class="vip-card__text" v-else><span>账户余额：</span>{{ cardInfo.balance.toFixed(2) }} 元</div>
+    <div class="vip-card__text" v-if="hasCard"><span>充值优惠：</span>充 {{ cardInfo.cardType.topUpTarget }} 送 {{ cardInfo.cardType.topUpDiscount }}</div>
+    <template v-if="hasCard">
+      <div class="vip-card__text" v-if="forSell"><span>办理价格：</span>{{ cardInfo.cardType.price }} 元</div>
+      <div class="vip-card__text" v-else><span>账户余额：</span>{{ cardInfo.balance.toFixed(2) }} 元</div>
+    </template>
     <div class="vip-card__stripe" :style="cardStripe"></div>
-    <div class="vip-card__no">No. {{ cardInfo.id }}</div>
+    <div class="vip-card__no">No. {{ hasCard ? cardInfo.id : 'xxxxxx' }}</div>
   </div>
 </template>
 
@@ -17,12 +22,15 @@
 export default {
   props: {
     cardInfo: Object,
-    sell: {
+    forSell: {
       type: Boolean,
       default: true
     }
   },
   computed: {
+    hasCard() {
+      return this.cardInfo !== null && this.cardInfo.cardType !== null
+    },
     color() {
       // TODO 用描述字段存储卡颜色
       // return this.cardInfo.cardType.description
@@ -53,13 +61,39 @@ export default {
   height: $w * 0.6;
 
   &__background {
+    z-index: 1;
     position: absolute;
 
     width: 100%;
     height: 100%;
     opacity: 0.75;
     border-radius: 8px;
-    z-index: 1;
+  }
+
+  &__shade {
+    z-index: 3;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: #000;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    >div {
+      opacity: 1;
+      color: #FFF;
+      font-size: 16px;
+      text-align: center;
+      line-height: 24px;
+
+      margin-top: -16px;
+    }
+    
   }
 
   &__title {
