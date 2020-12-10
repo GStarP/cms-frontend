@@ -10,11 +10,11 @@
     </div>
     <div class="vip-card__text" v-if="hasCard"><span>充值优惠：</span>充 {{ cardInfo.cardType.topUpTarget }} 送 {{ cardInfo.cardType.topUpDiscount }}</div>
     <template v-if="hasCard">
-      <div class="vip-card__text" v-if="forSell"><span>办理价格：</span>{{ cardInfo.cardType.price }} 元</div>
-      <div class="vip-card__text" v-else><span>账户余额：</span>{{ cardInfo.balance.toFixed(2) }} 元</div>
+      <div class="vip-card__text" v-if="forSell"><span>办理价格：</span><strong>{{ cardInfo.cardType.price }}</strong> 元</div>
+      <div class="vip-card__text" v-else><span>账户余额：</span><strong>{{ cardInfo.balance.toFixed(2) }}</strong> 元</div>
     </template>
     <div class="vip-card__stripe" :style="cardStripe"></div>
-    <div class="vip-card__no">No. {{ hasCard ? cardInfo.id : 'xxxxxx' }}</div>
+    <div class="vip-card__no">No. {{ (!hasCard || forSell) ? 'xxxxxx' : cardInfo.id }}</div>
   </div>
 </template>
 
@@ -104,7 +104,7 @@ export default {
     z-index: 2;
 
     margin-top: 20px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     padding-left: 18px;
     padding-right: 16px;
 
@@ -128,7 +128,11 @@ export default {
     color: #FFF;
 
     padding-left: 18px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+
+    strong {
+      font-size: 20px;
+    }
   }
 
   &__stripe {

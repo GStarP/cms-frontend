@@ -3,16 +3,16 @@
     <div class="membership">
       <div class="section-title">会员卡</div>
       <div class="member-info">
-          <vip-card :cardInfo="vipCard" :sell="false"></vip-card>
+          <vip-card :cardInfo="vipCard" :forSell="false"></vip-card>
           <el-divider/>
           <div class="member-yes" v-if="isVIP">
             <el-button type="primary" @click="charge">充值</el-button>
             <el-badge value="更多优惠" class="hot">
-              <el-button type="success">换卡</el-button>
+              <el-button type="success" @click="cardChosenDialog.visible = true">换卡</el-button>
             </el-badge>
           </div>
           <div class="member-no" v-else>
-            <el-button type="primary" @click="charge">办卡</el-button>
+            <el-button type="primary" @click="cardChosenDialog.visible = true">办卡</el-button>
           </div>
       </div>
     </div>
@@ -20,51 +20,33 @@
     <bank-card-pay :show.sync="bankCardPayShow" @finish="onBankCardPayFinish"/>
     <!-- 办理/更换会员卡弹窗 -->
     <el-dialog
-      title="选择您的会员权益"
+      title="办理/更换会员卡"
       :visible.sync="cardChosenDialog.visible"
     >
       <div class="card-type-wrapper">
-        <div v-if="isVIP" class="member-change-warining">
+        <!-- <div v-if="isVIP" class="member-change-warining">
           <span>切换会员权益后余额将按8折重新计入</span>
-        </div>
+        </div> -->
         <div class="card-type-list">
-          <el-row>
-            <el-col
-              :span="6"
-              v-for="(item, index) of cardTypePage"
-              :key="item.id"
-              :offset="index > 0 ? 2 : 0"
-              @click.native="chooseCardType(item.id)"
-            >
-              <el-card
-                class="card-type-item-card"
-                :class="{
-                  'active-card':
-                    cardChosenDialog.cardTypeChosenId === item.id
-                }"
-              >
-                <div class="card-type-name">{{ item.name }}</div>
-                <div class="card-type-prive">¥ {{ item.price }}</div>
-                <div class="card-type-description">
-                  充{{ item.topUpTarget }}送{{ item.topUpDiscount }}
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
+          <div
+            v-for="ct of cardTypePage"
+            :key="'card-type-' + ct.id"
+            class="vip-card-container"         
+          >
+            <vip-card :cardInfo="{ id: 0, balance: 0, cardType: ct}"></vip-card>
+            <el-button plain type="primary" @click="confirmBuyCard(ct.id)">{{ isVIP ? '更换' : '办理'}}</el-button>
+          </div>
+          
         </div>
         <el-pagination
-          small
+          background
           hide-on-single-page
           layout="prev, pager, next"
           :current-page.sync="cardChosenDialog.currentPage"
           :page-size="cardChosenDialog.pageSize"
-          :total="cardChosenDialog.cardTypes.length"
+          :total="isVIP ? cardChosenDialog.cardTypes.length - 1 : cardChosenDialog.cardTypes.length"
         >
         </el-pagination>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cardChosenDialog.visible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmMembership()">确 认</el-button>
       </div>
     </el-dialog>
   </div>
@@ -95,9 +77,9 @@ export default {
       topUpAmount: 0,
       cardChosenDialog: {
         visible: false,
-        cardTypeChosenId: 0,
+        chosenCardTypeId: 0,
         currentPage: 1,
-        pageSize: 3,
+        pageSize: 2,
         cardTypes: [
           {
             id: 1, // 会员卡类型id
@@ -156,6 +138,7 @@ export default {
       }).catch(() => {})
     },
     onBankCardPayFinish() {
+      // 会员卡充值
       if (this.bankCardPayType === 0) {
         const loading = this.$loading.service();
         chargeVIPCard(this.vipCard.id, this.topUpAmount)
@@ -168,24 +151,23 @@ export default {
             console.log(e);
             loading.close();
           });
+      // 更换会员卡
+      } else if (this.bankCardPayType === 1) {
+        this.changeCard(this.cardChosenDialog.chosenCardTypeId)
+      // 办理会员卡
+      } else if (this.bankCardPayType === 2) {
+        this.buyCard(this.cardChosenDialog.chosenCardTypeId)
       }
       this.bankCardPayShow = false
     },
-    chooseCardType(cardTypeId) {
-      this.cardChosenDialog.cardTypeChosenId = cardTypeId;
-    },
-    confirmMembership() {
-      // 购买会员卡
-      if (this.vipCard.id === -1) {
-        const loading = this.$loading.service();
+    buyCard(cardTypeId) {
+      const loading = this.$loading.service();
         buyVIPCard(
           this.$store.state.userInfo.id,
-          this.cardChosenDialog.cardTypeChosenId
+          cardTypeId
         )
           .then(res => {
-            this.$message.success("恭喜您成为会员大家庭的一员啦！", {
-              duration: 500
-            });
+            this.$message.success("会员卡购买成功，赶快充值使用吧");
             this.cardChosenDialog.visible = false;
             this.updateVIPCard();
             loading.close();
@@ -194,12 +176,12 @@ export default {
             console.log(e);
             loading.close();
           });
-        // 切换会员卡
-      } else {
-        const loading = this.$loading.service();
-        changeVIPCard(this.vipCard.id, this.cardChosenDialog.cardTypeChosenId)
+    },
+    changeCard(cardTypeId) {
+      const loading = this.$loading.service();
+        changeVIPCard(this.vipCard.id, cardTypeId)
           .then(res => {
-            this.$message.success("成功切换了您的会员权益", { duration: 500 });
+            this.$message.success("会员卡更换成功");
             this.cardChosenDialog.visible = false;
             this.updateVIPCard();
             loading.close();
@@ -208,6 +190,23 @@ export default {
             console.log(e);
             loading.close();
           });
+    },
+    confirmBuyCard(cardTypeId) {
+      this.cardChosenDialog.chosenCardTypeId = cardTypeId
+      // 购买会员卡
+      if (!this.isVIP) {
+        this.bankCardPayType = 2
+        this.bankCardPayShow =  true
+        this.cardChosenDialog.visible = false
+      // 切换会员卡
+      } else {
+        this.bankCardPayType = 1
+        this.$confirm('是否确认更换会员卡？余额将按 8 折计入新会员卡！', '提示', {
+          type: 'warning'
+        }).then(() => {
+          this.bankCardPayShow =  true
+          this.cardChosenDialog.visible = false
+        }).catch(e => {})
       }
     }
   },
@@ -216,11 +215,18 @@ export default {
       return this.vipCard !== null && this.vipCard.cardType !== null
     },
     cardTypePage() {
+      const arr = []
+      for (const ct of this.cardChosenDialog.cardTypes) {
+        if (this.isVIP && ct.id === this.vipCard.cardType.id) {
+          continue
+        }
+        arr.push(ct)
+      }
       const start_idx =
         (this.cardChosenDialog.currentPage - 1) *
         this.cardChosenDialog.pageSize;
       const end_idx = start_idx + this.cardChosenDialog.pageSize;
-      return this.cardChosenDialog.cardTypes.slice(start_idx, end_idx);
+      return arr.slice(start_idx, end_idx);
     }
   },
   mounted() {
@@ -293,63 +299,25 @@ export default {
   }
 }
 
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-
-.member-change-warining {
-  text-align: center;
-  font-size: 15px;
-  color: #f52e2e;
-  margin-bottom: 20px;
-}
-
 .card-type-list {
-  margin-left: 56px;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  margin-bottom: 32px;
+
+  .vip-card-container {
+    display: flex;
+    flex-direction: column;
+
+    >button {
+      margin-top: 16px;
+      width: 100%;
+    }
+  }
 }
 
 .el-pagination {
-  text-align: center;
-}
-
-.active-card {
-  border: 2px solid $primary;
-  border-radius: 4px;
-}
-
-.card-type-name {
-  font-size: 14px;
-  text-align: center;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.card-type-prive {
-  margin-top: 8px;
-  font-weight: bold;
-  font-size: 24px;
-  color: $primary;
-  text-align: center;
-}
-
-.card-type-description {
-  font-size: 14px;
-  color: #6d757a;
-  letter-spacing: 0;
   text-align: center;
 }
 </style>
