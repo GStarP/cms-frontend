@@ -181,7 +181,7 @@ export default {
       if (this.vipCardInfo.balance >= this.realFare) {
         this.payByVIPCard();
       } else {
-        // TODO 跳转至充值页
+        this.$router.push({ path: '/membership' })
       }
     },
     onBankCardPayFinish() {
