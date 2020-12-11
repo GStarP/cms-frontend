@@ -23,19 +23,19 @@
                 <span>{{ props.row.cardType }}</span>
               </el-form-item>
               <el-form-item label="会员卡余额" v-if="props.row.isShow == 3">
-                <span>{{ props.row.balance }}</span>
+                <span>{{ props.row.balance.toFixed(2) }}</span>
               </el-form-item>
               <el-form-item label="消费金额" v-if="props.row.isShow != 3">
-                <span>{{ props.row.money }}</span>
+                <span>{{ props.row.money.toFixed(2) }}</span>
               </el-form-item>
               <el-form-item label="优惠金额" v-if="props.row.isShow != 3">
-                <span>{{ props.row.discount }}</span>
+                <span>{{ props.row.discount.toFixed(2) }}</span>
               </el-form-item>
               <el-form-item label="实付金额" v-if="props.row.isShow == 3">
-                <span>{{ props.row.money }}</span>
+                <span>{{ props.row.money.toFixed(2) }}</span>
               </el-form-item>
               <el-form-item label="赠送金额" v-if="props.row.isShow == 3">
-                <span>{{ props.row.discount }}</span>
+                <span>{{ props.row.discount.toFixed(2) }}</span>
               </el-form-item>
               <el-form-item label="电影名称" v-if="props.row.isShow == 1">
                 <span>{{ props.row.movieName }}</span>
