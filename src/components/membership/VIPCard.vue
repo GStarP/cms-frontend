@@ -2,19 +2,30 @@
   <div class="vip-card">
     <div class="vip-card__background" :style="cardBackground"></div>
     <!-- 无会员卡时显示的遮罩层 -->
-    <div class="vip-card__shade" v-if="!hasCard"><div>您还不是会员<br>赶快点击下方“办卡”加入我们吧</div></div>
+    <div class="vip-card__shade" v-if="!hasCard">
+      <div>您还不是会员<br />赶快点击下方“办卡”加入我们吧</div>
+    </div>
     <!-- 会员卡信息 -->
     <div class="vip-card__title">
-      <div>{{  hasCard ? cardInfo.cardType.name : 'XXXXXX' }}</div>
+      <div>{{ hasCard ? cardInfo.cardType.name : "XXXXXX" }}</div>
       <img src="@/assets/img/vip.png" />
     </div>
-    <div class="vip-card__text" v-if="hasCard"><span>充值优惠：</span>充 {{ cardInfo.cardType.topUpTarget }} 送 {{ cardInfo.cardType.topUpDiscount }}</div>
+    <div class="vip-card__text" v-if="hasCard">
+      <span>充值优惠：</span>充 {{ cardInfo.cardType.topUpTarget }} 送
+      {{ cardInfo.cardType.topUpDiscount }}
+    </div>
     <template v-if="hasCard">
-      <div class="vip-card__text" v-if="forSell"><span>办理价格：</span><strong>{{ cardInfo.cardType.price }}</strong> 元</div>
-      <div class="vip-card__text" v-else><span>账户余额：</span><strong>{{ cardInfo.balance.toFixed(2) }}</strong> 元</div>
+      <div class="vip-card__text" v-if="forSell">
+        <span>办理价格：</span><strong>{{ cardInfo.cardType.price }}</strong> 元
+      </div>
+      <div class="vip-card__text" v-else>
+        <span>账户余额：</span><strong>{{ cardInfo.balance.toFixed(2) }}</strong> 元
+      </div>
     </template>
     <div class="vip-card__stripe" :style="cardStripe"></div>
-    <div class="vip-card__no">No. {{ (!hasCard || forSell) ? 'xxxxxx' : cardInfo.id }}</div>
+    <div class="vip-card__no">
+      No. {{ !hasCard || forSell ? "xxxxxx" : cardInfo.id }}
+    </div>
   </div>
 </template>
 
@@ -29,25 +40,28 @@ export default {
   },
   computed: {
     hasCard() {
-      return this.cardInfo !== null && this.cardInfo.cardType !== null
+      return this.cardInfo !== null && this.cardInfo.cardType !== null;
     },
     color() {
-      // TODO 用描述字段存储卡颜色
-      // return this.cardInfo.cardType.description
-      return '#409EFF'
+      // 用描述字段存储卡颜色
+      if (this.cardInfo && this.cardInfo.cardType) {
+        return this.cardInfo.cardType.description;
+      } else {
+        return "#409EFF";
+      }
     },
     cardBackground() {
       return {
-        'background-color': this.color
-      }
+        "background-color": this.color
+      };
     },
     cardStripe() {
       return {
-        'background-color': this.color
-      }
+        "background-color": this.color
+      };
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -55,7 +69,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  
+
   $w: 400px;
   width: $w;
   height: $w * 0.6;
@@ -84,16 +98,15 @@ export default {
     justify-content: center;
     align-items: center;
 
-    >div {
+    > div {
       opacity: 1;
-      color: #FFF;
+      color: #fff;
       font-size: 16px;
       text-align: center;
       line-height: 24px;
 
       margin-top: -16px;
     }
-    
   }
 
   &__title {
@@ -108,14 +121,14 @@ export default {
     padding-left: 18px;
     padding-right: 16px;
 
-    >div {
+    > div {
       font-size: 20px;
       font-weight: bold;
       letter-spacing: 2px;
-      color: #FFF;
+      color: #fff;
     }
 
-    >img {
+    > img {
       margin-left: auto;
       $size: 32px;
       width: $size;
@@ -125,7 +138,7 @@ export default {
 
   &__text {
     z-index: 2;
-    color: #FFF;
+    color: #fff;
 
     padding-left: 18px;
     margin-bottom: 8px;
@@ -144,8 +157,8 @@ export default {
 
   &__no {
     z-index: 2;
-    color: #FFF;
-    
+    color: #fff;
+
     text-align: end;
     padding-right: 12px;
 
@@ -154,6 +167,5 @@ export default {
     line-height: $h;
     font-size: 14px;
   }
-
 }
 </style>
