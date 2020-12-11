@@ -4,8 +4,8 @@
       <el-carousel
         class="banner-main"
         :interval="4000"
-        style="width: 800px"
-        height="400px"
+        style="width: 100%"
+        height="560px"
       >
         <el-carousel-item
           v-for="index in bannerInfo.length"
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-// TODO 仍需修改
 import { getBannerInfo } from "@/api/movie";
 
 export default {
