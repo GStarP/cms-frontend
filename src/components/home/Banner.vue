@@ -1,16 +1,28 @@
 <template>
   <div class="banner">
     <div class="banner__wrapper">
-      <el-carousel class="banner-main" :interval="4000" style="width: 800px" height="400px">
-      <el-carousel-item v-for="index in bannerInfo.length" :key="'banner' + index">
-        <el-image
-          class="banner-img"
-          @click="this.$router.push({ path: bannerInfo[index - 1].src })"
-          :src="bannerInfo[index - 1].img"
-          :fit="fit"
-        ></el-image>
-      </el-carousel-item>
-    </el-carousel>
+      <el-carousel
+        class="banner-main"
+        :interval="4000"
+        style="width: 800px"
+        height="400px"
+      >
+        <el-carousel-item
+          v-for="index in bannerInfo.length"
+          :key="'banner' + index"
+        >
+          <el-image
+            class="banner-img"
+            @click="
+              $router.push({
+                path: bannerInfo[index - 1].src
+              })
+            "
+            :src="bannerInfo[index - 1].img"
+            :fit="fit"
+          ></el-image>
+        </el-carousel-item>
+      </el-carousel>
     </div>
   </div>
 </template>
@@ -61,6 +73,10 @@ export default {
   margin-top: 16px;
   display: flex;
   justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 .banner-img {
   height: 100%;
