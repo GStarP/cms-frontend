@@ -66,6 +66,7 @@
           </div>
           <div v-else class="movie-ticket-seats">
             <el-tag
+              disable-transitions
               v-for="seat of selectedSeats"
               :key="scheduleId + 'r' + seat.rowIndex + 'c' + seat.columnIndex"
               effect="plain"

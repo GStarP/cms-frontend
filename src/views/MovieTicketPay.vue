@@ -54,6 +54,7 @@
         </div>
         <div class="movie-ticket-pay__coupon-list" v-else>
           <el-tag
+            disable-transitions
             v-for="(coupon, i) of availableCoupons"
             :key="'coupon' + coupon.id"
             @click="onCouponSelectChange(i)"
@@ -69,7 +70,10 @@
       </div>
     </div>
     <!-- 银行卡支付弹窗 -->
-    <bank-card-pay :show.sync="bankCardDialogShow" @finish="onBankCardPayFinish"/>
+    <bank-card-pay
+      :show.sync="bankCardDialogShow"
+      @finish="onBankCardPayFinish"
+    />
     <!-- 会员卡支付弹窗 -->
     <el-dialog
       class="vip-card-dialog"
@@ -107,7 +111,7 @@ import { getVIPCardByUserId } from "@/api/vip-card";
 
 export default {
   components: { MovieTicketStep, BankCardPay },
-  props: ['scheduleId'],
+  props: ["scheduleId"],
   data() {
     return {
       payInfo: {
@@ -140,7 +144,10 @@ export default {
   methods: {
     async updatePayInfo() {
       const loading = this.$loading.service();
-      const res = await getTicketToPay(this.$store.state.userInfo.id, this.scheduleId);
+      const res = await getTicketToPay(
+        this.$store.state.userInfo.id,
+        this.scheduleId
+      );
       this.payInfo = res.content;
       loading.close();
     },
@@ -181,7 +188,7 @@ export default {
       if (this.vipCardInfo.balance >= this.realFare) {
         this.payByVIPCard();
       } else {
-        this.$router.push({ path: '/membership' })
+        this.$router.push({ path: "/membership" });
       }
     },
     onBankCardPayFinish() {

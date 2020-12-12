@@ -10,14 +10,15 @@
         <div class="movie-info__right">
           <div class="movie-info__name">{{ movieDetail.name }}</div>
           <div class="movie-info__type">
-            <el-tag type="warning" effect="dark">
+            <el-tag type="warning" effect="dark" disable-transitions>
               <i class="el-icon-time" />
               {{ movieDetail.length }}分钟
             </el-tag>
-            <el-tag type="danger" effect="dark">
+            <el-tag type="danger" effect="dark" disable-transitions>
               <i class="el-icon-star-off" />
               {{ movieDetail.likeCount }}人想看</el-tag>
             <el-tag
+              disable-transitions
               v-for="type in typeList"
               :key="movieId + 'type' + type"
               effect="dark"
@@ -128,22 +129,24 @@ export default {
       }
     },
     updateLikeMovie() {
-      this.$requireLogin().then(() => {
-        const loading = this.$loading.service();
-        toggleLikeMovie(
-          this.$store.state.userInfo.id,
-          this.movieId,
-          this.movieDetail.islike
-        )
-          .then(() => {
-            this.updateMovieDetail();
-            loading.close();
-          })
-          .catch(e => {
-            console.log(e);
-            loading.close();
-          });
-      }).catch(e => {})
+      this.$requireLogin()
+        .then(() => {
+          const loading = this.$loading.service();
+          toggleLikeMovie(
+            this.$store.state.userInfo.id,
+            this.movieId,
+            this.movieDetail.islike
+          )
+            .then(() => {
+              this.updateMovieDetail();
+              loading.close();
+            })
+            .catch(e => {
+              console.log(e);
+              loading.close();
+            });
+        })
+        .catch(e => {});
     },
     updateMovieScheduleList() {
       const loading = this.$loading.service();
