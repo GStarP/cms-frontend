@@ -14,25 +14,7 @@ export default new Vuex.Store({
       auth: 0
     },
     // 电影列表
-    movieList: [
-      {
-        id: undefined,
-        country: undefined,
-        description: undefined,
-        director: undefined,
-        islike: undefined,
-        language: undefined,
-        length: undefined,
-        likeCount: undefined,
-        name: undefined,
-        posterUrl: undefined,
-        screenWriter: undefined,
-        starring: undefined,
-        startDate: undefined,
-        status: undefined,
-        type: undefined
-      }
-    ]
+    movieList: []
   },
   mutations: {
     setUserInfo(state, userInfo) {

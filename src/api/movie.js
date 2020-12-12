@@ -25,7 +25,12 @@ export async function getMovieDetail(movieId) {
 }
 
 export async function searchMoviesByKeyword(keyword) {
-  const { data } = await axios.get("/movie/search?keyword=" + keyword);
+  const { data } = await axios.get(`/movie/search?keyword=${keyword}`);
+  return data;
+}
+
+export async function getAllMoviesExcludeOff() {
+  const { data } = await axios.get("/movie/all/exclude/off");
   return data;
 }
 
