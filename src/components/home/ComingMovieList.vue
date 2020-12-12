@@ -1,8 +1,6 @@
 <template>
   <div class="coming-movie-list">
-    <div class="coming-movie-title">
-      即将上映
-    </div>
+    <div class="coming-movie-title">即将上映</div>
     <div class="coming-movie-grid">
       <div v-for="movie in comingMovieList" :key="movie.movieId">
         <movie-poster
@@ -22,32 +20,32 @@
 </template>
 
 <script>
-import MoviePoster from "@/components/MoviePoster";
+import MoviePoster from "@/components/home/MoviePoster";
 import { getComingMovieList } from "@/api/movie";
 export default {
   name: "ComingMovieList",
   components: {
-    MoviePoster
+    MoviePoster,
   },
   data() {
     return {
       comingMovieList: [],
-      action: "详情"
+      action: "详情",
     };
   },
   mounted() {
     const loading = this.$loading.service();
     getComingMovieList()
-      .then(res => res.content)
-      .then(res => {
+      .then((res) => res.content)
+      .then((res) => {
         this.comingMovieList = res;
         loading.close();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         loading.close();
       });
-  }
+  },
 };
 </script>
 

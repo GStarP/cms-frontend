@@ -1,6 +1,6 @@
 <template>
-  <div class="movie-poster">
-    <div class="movie-poster-content" @click="toMovieDeatil">
+  <div class="movie-poster" @click="toMovieDetail">
+    <div class="movie-poster-content">
       <img class="movie-img" :alt="name" :src="img" />
       <div class="movie-poster-summary">
         <div class="movie-name">{{ name }}</div>
@@ -22,16 +22,16 @@ export default {
   data() {
     return {
       movieDetail: {},
-      movieDetailVisible: false
+      movieDetailVisible: false,
     };
   },
   methods: {
-    toMovieDeatil() {
+    toMovieDetail() {
       this.$router.push({
-        path: `/movie-detail/${this.id}`
-      })
-    }
-  }
+        path: `/movie-detail/${this.id}`,
+      });
+    },
+  },
 };
 </script>
 
@@ -42,7 +42,7 @@ export default {
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0 5px 13px rgba(0,0,0,.2);
+    box-shadow: 0 5px 13px rgba(0, 0, 0, 0.2);
 
     .movie-sales {
       color: white;
