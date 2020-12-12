@@ -2,19 +2,23 @@
   <div class="search-movie-list">
     <div class="search-movie-list-result">
       <search-movie-item
-        v-for="movie in filteredMovieList"
+        v-for="movie in paginatedMovieList"
         :key="movie.id"
         :movie="movie"
       />
     </div>
-    <div class="search-movie-list-empty" v-if="movieList.length === 0">
+    <div class="search-movie-list-empty" v-if="paginatedMovieList.length === 0">
       <span>抱歉，没有查找到符合条件的影片... -_-|||</span>
     </div>
     <el-pagination
       v-if="movieList.length !== 0"
       background
       layout="prev, pager, next"
-      :total="1000"
+      :hide-on-single-page="true"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-size="pageSize"
+      :total="filteredMovieList.length"
     ></el-pagination>
   </div>
 </template>
@@ -25,7 +29,23 @@ export default {
   components: { SearchMovieItem },
   name: "SearchMovieList",
   props: ["movieList", "selectedCountries", "selectedCategories"],
+  data() {
+    return {
+      currentPage: 1,
+      pageSize: 20,
+    };
+  },
+  methods: {
+    handleCurrentChange: function (newPage) {
+      this.currentPage = newPage;
+    },
+  },
   computed: {
+    paginatedMovieList() {
+      const start = this.pageSize * (this.currentPage - 1);
+      const end = this.pageSize * this.currentPage;
+      return this.filteredMovieList.slice(start, end);
+    },
     filteredMovieList() {
       return this.movieList.filter((m) => {
         const countries = m.country.split("/");

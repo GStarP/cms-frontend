@@ -84,14 +84,22 @@ export default {
           loading.close();
         });
     },
+    loadMovieList() {
+      const route = this.$router.currentRoute;
+      if (route.path === "/search") {
+        this.handleSearchMovies(route.query.keyword);
+      } else {
+        this.handleAllMovies();
+      }
+    },
   },
   mounted() {
-    const route = this.$router.currentRoute;
-    if (route.path === "/search") {
-      this.handleSearchMovies(route.query.keyword);
-    } else {
-      this.handleAllMovies();
-    }
+    this.loadMovieList();
+  },
+  watch: {
+    $route(to, from) {
+      this.loadMovieList();
+    },
   },
 };
 </script>

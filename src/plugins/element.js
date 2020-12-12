@@ -33,7 +33,8 @@ import {
   Col,
   ButtonGroup,
   Badge,
-  Alert
+  Alert,
+  Popover,
 } from "element-ui";
 
 Vue.use(Container);
@@ -70,3 +71,4 @@ Vue.use(Col);
 Vue.use(ButtonGroup);
 Vue.use(Badge);
 Vue.use(Alert);
+Vue.use(Popover);
