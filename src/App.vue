@@ -30,6 +30,6 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #ccc;
+  background-color: #aaa;
 }
 </style>
