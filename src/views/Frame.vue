@@ -1,6 +1,9 @@
 <template>
   <div class="frame">
     <el-container>
+      <div v-if="$route.path !== '/'" class="backer" @click="$router.back()">
+        <i class="el-icon-back"></i>返回
+      </div>
       <el-header height="64px">
         <div
           class="header-icon-title"
@@ -21,33 +24,35 @@
           </div>
         </div>
         <div class="header__right">
-          <search-bar style="margin-right: 16px"/>
+          <search-bar style="margin-right: 16px" />
           <template v-if="$store.state.userInfo.id > 0">
-          <el-dropdown class="user-menu">
-            <div class="username">
-              {{ $store.state.userInfo.username }}
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </div>
-            <el-dropdown-menu>
-              <el-dropdown-item><span @click="$router.push({ path: '/user/history/consume' })">消费记录</span></el-dropdown-item>
-              <el-dropdown-item><span @click="$router.push({ path: '/user/ticket' })">购票记录</span></el-dropdown-item>
-              <el-dropdown-item><span @click="$router.push({ path: '/membership' })">会员卡</span></el-dropdown-item>
-              <el-dropdown-item><span @click="logout()">登出</span></el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </template>
-        <template v-else>
-          <el-link
-            type="primary"
-            :underline="false"
-            @click="$router.push({ path: '/login' })"
-            >更多功能，点此登录</el-link>
-        </template>
+            <el-dropdown class="user-menu">
+              <div class="username">
+                {{ $store.state.userInfo.username }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </div>
+              <el-dropdown-menu>
+                <el-dropdown-item><span
+                    @click="$router.push({ path: '/user/history/consume' })"
+                    >消费记录</span></el-dropdown-item>
+                <el-dropdown-item><span @click="$router.push({ path: '/user/ticket' })">购票记录</span></el-dropdown-item>
+                <el-dropdown-item><span @click="$router.push({ path: '/membership' })">会员卡</span></el-dropdown-item>
+                <el-dropdown-item><span @click="logout()">登出</span></el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
+          <template v-else>
+            <el-link
+              type="primary"
+              :underline="false"
+              @click="$router.push({ path: '/login' })"
+              >更多功能，点此登录</el-link>
+          </template>
         </div>
       </el-header>
       <el-main>
         <div class="content">
-          <router-view/>
+          <router-view />
         </div>
       </el-main>
     </el-container>
@@ -58,6 +63,9 @@
 import SearchBar from "@/components/SearchBar";
 
 export default {
+  components: {
+    SearchBar
+  },
   data() {
     return {
       navMenuItem: [
@@ -100,17 +108,36 @@ export default {
         password: undefined,
         auth: undefined
       });
-      this.$router.push({path: "/login"});
+      this.$router.push({ path: "/login" });
     }
-  },
-  components: {
-    SearchBar
   }
 };
 </script>
 
 <style lang="scss">
 $headerHeight: 64px;
+
+.backer {
+  position: absolute;
+  top: 84px;
+  left: 24px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  font-weight: 300;
+
+  i {
+    font-size: 18px;
+    margin-right: 2px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}
 
 .frame {
   min-height: 100vh;
@@ -224,7 +251,7 @@ $headerHeight: 64px;
 
   line-height: 48px;
 
-  >span {
+  > span {
     line-height: 48px;
 
     font-size: 16px;

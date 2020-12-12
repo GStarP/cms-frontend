@@ -32,7 +32,8 @@ import {
   Row,
   Col,
   ButtonGroup,
-  Badge
+  Badge,
+  Alert
 } from "element-ui";
 
 Vue.use(Container);
@@ -68,3 +69,4 @@ Vue.use(Row);
 Vue.use(Col);
 Vue.use(ButtonGroup);
 Vue.use(Badge);
+Vue.use(Alert);

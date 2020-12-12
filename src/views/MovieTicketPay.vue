@@ -1,8 +1,5 @@
 <template>
   <div class="movie-ticket-pay__wrapper">
-    <div v-if="$route.query.c" class="back-to-seat" @click="$router.back()">
-      <i class="el-icon-back"></i>返回重新选座
-    </div>
     <movie-ticket-step class="movie-ticket-step" :progress="1" />
     <div class="movie-ticket-pay">
       <el-alert
@@ -86,12 +83,18 @@
       <div class="vip-card-dialog__info">
         <div><span>会员卡类型：</span>{{ vipCardInfo.cardType.name }}</div>
         <div>
-          <span>会员卡优惠：</span>{{ vipCardInfo.cardType.description }}
-        </div>
-        <div>
           <span>会员卡余额：</span>{{ vipCardInfo.balance.toFixed(2) }} 元
         </div>
         <div><span>待支付金额：</span>{{ realFare.toFixed(2) }} 元</div>
+        <div>
+          <span>支付后余额：</span>
+          <template v-if="vipCardInfo.balance - realFare >= 0">
+            {{ (vipCardInfo.balance - realFare).toFixed(2) }} 元
+          </template>
+          <template v-else>
+            <div class="danger">余额不足</div>
+          </template>
+        </div>
       </div>
       <div class="vip-card-dialog__operation">
         <el-link @click="switchToBankCardPay">银行卡支付</el-link>
@@ -282,27 +285,6 @@ export default {
 </script>
 
 <style lang="scss">
-.back-to-seat {
-  position: absolute;
-  top: 84px;
-  left: 24px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  font-weight: 300;
-
-  i {
-    font-size: 18px;
-    margin-right: 2px;
-  }
-
-  &:hover {
-    opacity: 0.8;
-    cursor: pointer;
-  }
-}
 .movie-ticket-step {
   margin: 36px 0;
 }
@@ -449,6 +431,11 @@ export default {
       display: inline-block;
       width: 100px;
       color: #999;
+    }
+
+    .danger {
+      display: inline-flex;
+      color: #f56c6c;
     }
   }
 

@@ -172,7 +172,9 @@ export default {
         this.selectedSeats
       )
         .then(res => {
-          this.$router.push({ path: "/movie-ticket-pay", query: { c: 1 } });
+          this.$router.push({
+            path: `/movie-ticket-pay/${this.scheduleId}`
+          });
           this.$message.success("选座成功，请尽快完成支付");
           loading.close();
         })
