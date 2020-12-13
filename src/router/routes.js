@@ -22,6 +22,13 @@ const routes = [
         }
       },
       {
+        path: "/search",
+        component: () => import("@/views/MovieList.vue"),
+        meta: {
+          title: "搜索结果"
+        }
+      },
+      {
         path: "/movie-detail/:movieId",
         component: () => import("@/views/MovieDetail.vue"),
         props: true,
@@ -76,10 +83,11 @@ const routes = [
         }
       },
       {
-        path: "/search",
-        component: () => import("@/views/MovieList.vue"),
+        path: "/user/coupon",
+        component: () => import("@/views/CouponList.vue"),
+        props: true,
         meta: {
-          title: "搜索结果"
+          title: "优惠券"
         }
       }
     ]
