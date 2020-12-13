@@ -5,14 +5,19 @@
         <div class="coupons">
           <div class="coupon" v-for="item of coupons" :key="item.idx">
             <div class="content">
-              <div class="left">
-                <div class="name">{{ item.name }}</div>
-                <div class="description">{{ item.description }}</div>
+              <div class="coupon-left">
+                <div class="name">
+                  <el-tooltip class="item" effect="dark" :content="item.description" placement="right">
+                    <span>{{ item.name }}</span>
+                  </el-tooltip>
+                </div>
                 <div class="price">满{{ item.targetAmount }}减{{ item.discountAmount }}</div>
+                <div class="valid-period">有效期：{{formatDate(item.startTime)}} ~ {{formatDate(item.endTime)}}</div>
               </div>
-              <div class="right">
-                <div>有效日期：</div>
-                <div>{{formatDate(item.startTime)}} ~ {{formatDate(item.endTime)}}</div>
+              <div class="coupon-right">
+                <el-link @click="$router.push({ path: '/movie' })">
+                  去使用<i class="el-icon-shopping-cart-2 el-icon--right"></i>
+                </el-link>
               </div>
             </div>
           </div>
@@ -57,6 +62,7 @@ export default {
             c.idx = idx;
             idx = idx + 1;
           }
+          console.log(this.coupons);
           loading.close();
         })
         .catch(e => {
@@ -88,34 +94,70 @@ export default {
 }
 
 .coupons {
+  display: flex;
   flex-direction: row;
-  align-items: center;
+  flex-wrap: wrap;
 }
 
 .coupon {
   position: relative;
   overflow: hidden;
-  background: $primary;
-  // height: 120px;
-  width: 325px;
+  background: #40a0ffd8;
+  height: 120px;
+  width: 400px;
   margin: 5px;
 
-  ::before {
-    border-right: 10px dotted white;
-    left: -5px;
+  .content {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    color: white;
+    align-items: center;
+  }
+}
+
+.coupon::before {
+  border-right: 10px dotted white;
+  left: -5px;
+}
+
+.coupon::after {
+  border-left: 10px dotted white;
+  right: -5px;
+}
+
+.coupon::before, .coupon::after {
+  top: 10px;
+  content: ' ';
+  width: 0;
+  height: 100%;
+  position: absolute;
+}
+
+.coupon-left {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  border-right: 2px dashed rgba(255,255,255,.3);
+  width: 20%;
+
+  .name {
+    font-size: 20px;
   }
 
-  ::after {
-    border-left: 10px dotted white;
-    right: -5px;
+  .price {
+    font-size: 24px;
+    color: #f9d3a1;
   }
 
-  ::before, ::after {
-    top: 10px;
-    content: ' ';
-    width: 0;
-    height: 100%;
-    position: absolute;
+  .valid-period {
+    font-size: 14px;
+    color: #ecdfdf;
   }
+}
+
+.coupon-right {
+  padding-left: 25px;
+  text-align: left;
 }
 </style>
