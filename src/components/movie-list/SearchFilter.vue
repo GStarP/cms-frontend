@@ -67,7 +67,6 @@ export default {
 <style scoped lang="scss">
 .search-filter {
   padding: 0;
-  margin-top: 40px;
 }
 .search-filter-category {
   span {

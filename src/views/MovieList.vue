@@ -105,7 +105,10 @@ export default {
 </script>
 
 <style lang="scss">
+.movie-list {
+  padding-top: 16px;
+}
 .movie-list-content {
-  margin-top: 36px;
+  margin-top: 24px;
 }
 </style>
