@@ -1,8 +1,6 @@
 <template>
   <div class="popular-movie-list">
-    <div class="section-title">
-      正在热映
-    </div>
+    <div class="section-title">正在热映</div>
     <div class="popular-movie-grid">
       <div v-for="movie in popularMovieList" :key="movie.movieId">
         <movie-poster
@@ -22,7 +20,7 @@
 </template>
 
 <script>
-import MoviePoster from "@/components/MoviePoster";
+import MoviePoster from "@/components/home/MoviePoster";
 import { getPopularMovieList } from "@/api/movie";
 
 export default {
@@ -30,25 +28,25 @@ export default {
   data() {
     return {
       popularMovieList: [],
-      action: "购票"
+      action: "购票",
     };
   },
   components: {
-    MoviePoster
+    MoviePoster,
   },
   mounted() {
     const loading = this.$loading.service();
     getPopularMovieList()
-      .then(res => res.content)
-      .then(res => {
+      .then((res) => res.content)
+      .then((res) => {
         this.popularMovieList = res;
         loading.close();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         loading.close();
       });
-  }
+  },
 };
 </script>
 

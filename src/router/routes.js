@@ -74,6 +74,13 @@ const routes = [
         meta: {
           title: "会员权益"
         }
+      },
+      {
+        path: "/search",
+        component: () => import("@/views/MovieList.vue"),
+        meta: {
+          title: "搜索结果"
+        }
       }
     ]
   },

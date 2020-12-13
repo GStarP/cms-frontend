@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-rank-item">
+  <div class="movie-rank-item" @click="toMovieDetail">
     <div class="movie-rank-item-left">
       <div :class="indexClassName">{{ index }}</div>
       <div class="movie-rank-item__name" :class="nameClassName">{{ name }}</div>
@@ -24,9 +24,16 @@ export default {
     }
     return {
       indexClassName: indexClassName,
-      nameClassName: nameClassName
+      nameClassName: nameClassName,
     };
-  }
+  },
+  methods: {
+    toMovieDetail() {
+      this.$router.push({
+        path: `/movie-detail/${this.id}`,
+      });
+    },
+  },
 };
 </script>
 

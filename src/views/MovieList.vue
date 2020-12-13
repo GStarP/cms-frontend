@@ -1,9 +1,111 @@
 <template>
-  <div class="movie-list">MOVIE</div>
+  <div class="movie-list">
+    <div class="movie-list-filter">
+      <search-filter
+        :filter="filter"
+        :countries="countrySet"
+        :categories="categorySet"
+      >
+      </search-filter>
+    </div>
+    <div class="movie-list-content">
+      <search-movie-list
+        :movie-list="movieList"
+        :selected-countries="countries"
+        :selected-categories="categories"
+      ></search-movie-list>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {};
+import { getAllMoviesExcludeOff, searchMoviesByKeyword } from "@/api/movie";
+import SearchMovieList from "@/components/SearchMovieList";
+import SearchFilter from "@/components/SearchFilter";
+
+export default {
+  data() {
+    return {
+      countries: [],
+      categories: [],
+    };
+  },
+  components: {
+    SearchMovieList,
+    SearchFilter,
+  },
+  computed: {
+    movieList() {
+      return this.$store.state.movieList;
+    },
+    countrySet() {
+      const movieList = this.$store.state.movieList;
+      return new Set(
+        movieList
+          .filter((m) => m.country !== undefined)
+          .flatMap((m) => m.country.split("/"))
+      );
+    },
+    categorySet() {
+      const movieList = this.$store.state.movieList;
+      return new Set(
+        movieList
+          .filter((m) => m.type !== undefined)
+          .flatMap((m) => m.type.split("/"))
+      );
+    },
+  },
+  methods: {
+    filter(countries, categories) {
+      this.countries = [...countries];
+      this.categories = [...categories];
+    },
+    handleSearchMovies(keyword) {
+      const loading = this.$loading.service();
+      searchMoviesByKeyword(keyword)
+        .then((res) => {
+          this.$store.commit("setMovieList", res.content);
+          loading.close();
+        })
+        .catch((e) => {
+          console.log(e);
+          loading.close();
+        });
+    },
+    handleAllMovies() {
+      const loading = this.$loading.service();
+      getAllMoviesExcludeOff()
+        .then((res) => {
+          this.$store.commit("setMovieList", res.content);
+          loading.close();
+        })
+        .catch((e) => {
+          console.log(e);
+          loading.close();
+        });
+    },
+    loadMovieList() {
+      const route = this.$router.currentRoute;
+      if (route.path === "/search") {
+        this.handleSearchMovies(route.query.keyword);
+      } else {
+        this.handleAllMovies();
+      }
+    },
+  },
+  mounted() {
+    this.loadMovieList();
+  },
+  watch: {
+    $route(to, from) {
+      this.loadMovieList();
+    },
+  },
+};
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.movie-list-content {
+  margin-top: 40px;
+}
+</style>
