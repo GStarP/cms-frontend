@@ -86,16 +86,7 @@ export default {
   flex-wrap: wrap;
 }
 .search-movie-list-empty {
-  width: 100%;
-  height: 200px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  span {
-    font-size: 24px;
-    color: #99a9bf;
-  }
+  font-size: 24px;
+  color: #99a9bf;
 }
 </style>

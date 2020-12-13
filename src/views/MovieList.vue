@@ -1,5 +1,6 @@
 <template>
   <div class="movie-list">
+    <div class="section-title">搜索结果</div>
     <div class="movie-list-filter" v-if="movieList.length > 0">
       <search-filter
         :filter="filter"
