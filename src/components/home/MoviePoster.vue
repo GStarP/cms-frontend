@@ -15,23 +15,22 @@
 </template>
 
 <script>
-// TODO hover 可见电影信息
 export default {
   props: ["img", "id", "name", "like", "action"],
   name: "MoviePoster",
   data() {
     return {
       movieDetail: {},
-      movieDetailVisible: false,
+      movieDetailVisible: false
     };
   },
   methods: {
     toMovieDetail() {
       this.$router.push({
-        path: `/movie-detail/${this.id}`,
+        path: `/movie-detail/${this.id}`
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

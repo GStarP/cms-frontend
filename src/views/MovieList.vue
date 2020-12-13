@@ -1,6 +1,6 @@
 <template>
   <div class="movie-list">
-    <div class="movie-list-filter">
+    <div class="movie-list-filter" v-if="movieList.length > 0">
       <search-filter
         :filter="filter"
         :countries="countrySet"
@@ -20,19 +20,19 @@
 
 <script>
 import { getAllMoviesExcludeOff, searchMoviesByKeyword } from "@/api/movie";
-import SearchMovieList from "@/components/SearchMovieList";
-import SearchFilter from "@/components/SearchFilter";
+import SearchMovieList from "@/components/movie-list/SearchMovieList";
+import SearchFilter from "@/components/movie-list/SearchFilter";
 
 export default {
   data() {
     return {
       countries: [],
-      categories: [],
+      categories: []
     };
   },
   components: {
     SearchMovieList,
-    SearchFilter,
+    SearchFilter
   },
   computed: {
     movieList() {
@@ -42,18 +42,18 @@ export default {
       const movieList = this.$store.state.movieList;
       return new Set(
         movieList
-          .filter((m) => m.country !== undefined)
-          .flatMap((m) => m.country.split("/"))
+          .filter(m => m.country !== undefined)
+          .flatMap(m => m.country.split("/"))
       );
     },
     categorySet() {
       const movieList = this.$store.state.movieList;
       return new Set(
         movieList
-          .filter((m) => m.type !== undefined)
-          .flatMap((m) => m.type.split("/"))
+          .filter(m => m.type !== undefined)
+          .flatMap(m => m.type.split("/"))
       );
-    },
+    }
   },
   methods: {
     filter(countries, categories) {
@@ -63,11 +63,11 @@ export default {
     handleSearchMovies(keyword) {
       const loading = this.$loading.service();
       searchMoviesByKeyword(keyword)
-        .then((res) => {
+        .then(res => {
           this.$store.commit("setMovieList", res.content);
           loading.close();
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
           loading.close();
         });
@@ -75,11 +75,11 @@ export default {
     handleAllMovies() {
       const loading = this.$loading.service();
       getAllMoviesExcludeOff()
-        .then((res) => {
+        .then(res => {
           this.$store.commit("setMovieList", res.content);
           loading.close();
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
           loading.close();
         });
@@ -91,7 +91,7 @@ export default {
       } else {
         this.handleAllMovies();
       }
-    },
+    }
   },
   mounted() {
     this.loadMovieList();
@@ -99,13 +99,13 @@ export default {
   watch: {
     $route(to, from) {
       this.loadMovieList();
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 .movie-list-content {
-  margin-top: 40px;
+  margin-top: 36px;
 }
 </style>

@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import ToggleButton from "./ToggleButton.vue";
+import ToggleButton from "@/components/ToggleButton.vue";
 export default {
   data() {
     return {
       selectedCountries: [],
-      selectedCategories: [],
+      selectedCategories: []
     };
   },
   components: { ToggleButton },
@@ -43,7 +43,7 @@ export default {
         this.selectedCountries = [country, ...this.selectedCountries];
       } else {
         this.selectedCountries = this.selectedCountries.filter(
-          (m) => m !== country
+          m => m !== country
         );
       }
       this.filter(this.selectedCountries, this.selectedCategories);
@@ -53,23 +53,21 @@ export default {
         this.selectedCategories = [category, ...this.selectedCategories];
       } else {
         this.selectedCategories = this.selectedCategories.filter(
-          (m) => m !== category
+          m => m !== category
         );
       }
       this.filter(this.selectedCountries, this.selectedCategories);
-    },
+    }
   },
   name: "SearchFilter",
-  props: ["filter", "countries", "categories"],
+  props: ["filter", "countries", "categories"]
 };
 </script>
 
 <style scoped lang="scss">
 .search-filter {
-  border: 1px solid #e5e5e5;
-  padding: 0 20px;
+  padding: 0;
   margin-top: 40px;
-  border: 1px solid #e5e5e5;
 }
 .search-filter-category {
   span {

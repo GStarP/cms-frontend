@@ -6,34 +6,17 @@
       </div>
       <div class="search-movie-item-slot__right">
         <div class="search-movie-item-slot__name">{{ movie.name }}</div>
-        <div class="search-movie-item-slot__type">
-          <el-tag
-            disable-transitions
-            v-for="category in categories"
-            :key="category"
-            effect="dark"
-          >
-            {{ category }}
-          </el-tag>
+        <div class="search-movie-item-slot__text">
+          <span>时长：</span>{{ movie.length }} 分钟
         </div>
-        <div class="search-movie-item-slot__type">
-          <el-tag type="warning" effect="dark" disable-transitions>
-            <i class="el-icon-time" />
-            {{ movie.length }}分钟
-          </el-tag>
-          <el-tag type="danger" effect="dark" disable-transitions>
-            <i class="el-icon-star-off" />
-            {{ movie.likeCount }}人想看
-          </el-tag>
+        <div class="search-movie-item-slot__text">
+          <span>类型：</span>{{ movie.type }}
         </div>
         <div class="search-movie-item-slot__text">
           <span>导演：</span>{{ text(movie.director) }}
         </div>
         <div class="search-movie-item-slot__text">
           <span>主演：</span>{{ text(movie.starring) }}
-        </div>
-        <div class="search-movie-item-slot__text">
-          <span>国家：</span>{{ text(movie.country) }}
         </div>
         <div class="search-movie-item-slot__text">
           <span>语言：</span>{{ text(movie.language) }}
@@ -58,12 +41,12 @@ export default {
   computed: {
     categories() {
       return this.movie.type.split("/");
-    },
+    }
   },
   methods: {
     toMovieDetail() {
       this.$router.push({
-        path: `/movie-detail/${this.movie.id}`,
+        path: `/movie-detail/${this.movie.id}`
       });
     },
     text(val) {
@@ -72,8 +55,8 @@ export default {
       } else {
         return "暂无信息";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -83,14 +66,18 @@ export default {
   width: 200px;
   height: auto;
 
-  border: 1px solid #fff0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
 
   &:hover {
     cursor: pointer;
+    box-shadow: 0 5px 13px rgba(0, 0, 0, 0.2);
+
+    span {
+      background-color: $primary;
+      color: #fff;
+    }
   }
 
   span {
@@ -101,7 +88,10 @@ export default {
     text-align: center;
     font-size: 16px;
     color: #333;
-    margin-top: 10px;
+    $h: 36px;
+    height: $h;
+    line-height: $h;
+    @include text-ellipsis(1);
   }
 }
 .search-movie-item-poster {
@@ -129,7 +119,7 @@ export default {
   }
 
   &__poster {
-    width: 300px;
+    width: 192px;
     height: auto;
     outline: solid 2px #fff;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
@@ -137,7 +127,7 @@ export default {
   }
 
   &__name {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: bold;
   }
 
@@ -156,8 +146,8 @@ export default {
       font-weight: bold;
     }
     div {
-      @include text-ellipsis(6);
-      font-size: 15px;
+      @include text-ellipsis(4);
+      font-size: 14px;
       margin-top: 4px;
     }
   }

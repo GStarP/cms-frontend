@@ -8,7 +8,7 @@
       />
     </div>
     <div class="search-movie-list-empty" v-if="paginatedMovieList.length === 0">
-      <span>抱歉，没有查找到符合条件的影片... -_-|||</span>
+      <span>抱歉，没有符合条件的影片... -_-|||</span>
     </div>
     <el-pagination
       v-if="movieList.length !== 0"
@@ -32,13 +32,13 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 20,
+      pageSize: 20
     };
   },
   methods: {
-    handleCurrentChange: function (newPage) {
+    handleCurrentChange: function(newPage) {
       this.currentPage = newPage;
-    },
+    }
   },
   computed: {
     paginatedMovieList() {
@@ -47,7 +47,7 @@ export default {
       return this.filteredMovieList.slice(start, end);
     },
     filteredMovieList() {
-      return this.movieList.filter((m) => {
+      return this.movieList.filter(m => {
         const countries = m.country.split("/");
         const categories = m.type.split("/");
         const contains = (l1, l2) => {
@@ -65,8 +65,8 @@ export default {
             contains(this.selectedCategories, categories))
         );
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -78,7 +78,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 }
 .search-movie-list-result {
   width: 100%;

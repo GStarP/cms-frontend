@@ -21,15 +21,15 @@ export default {
   props: ["toggled", "onClick", "text"],
   data() {
     return {
-      selected: this.toggled,
+      selected: this.toggled
     };
   },
   methods: {
     toggle() {
       this.selected = !this.selected;
       this.onClick(this.text, this.selected);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -56,7 +56,8 @@ export default {
   border-color: #409eff;
 }
 .toggle-button-unselected {
-  background: #fff;
+  background: transparent;
+  border-color: #dcdfe6;
   color: #606266;
 
   &:hover {
