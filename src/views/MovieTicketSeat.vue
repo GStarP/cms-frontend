@@ -1,6 +1,8 @@
 <template>
   <div class="movie-ticket">
     <movie-ticket-step class="movie-ticket-step" :progress="0" />
+    <!-- 电影活动 -->
+    <activity-hint :activity="$store.state.activityInfo"></activity-hint>
     <div class="movie-ticket-info">
       <div class="movie-ticket-seats">
         <div class="movie-ticket-seats__introduction">
@@ -85,13 +87,15 @@
 
 <script>
 import MovieTicketStep from "@/components/movie-ticket/MovieTicketStep.vue";
+import ActivityHint from "@/components/ActivityHint.vue";
 import { getMovieDetailByUser } from "@/api/movie";
 import { getScheduleInfo, lockSeat } from "@/api/ticket";
 import { formatDate, formatTime, isToday, isNextDay } from "@/utils/time";
 
 export default {
   components: {
-    MovieTicketStep
+    MovieTicketStep,
+    ActivityHint
   },
   props: ["movieId", "scheduleId"],
   data() {
@@ -238,6 +242,10 @@ export default {
 <style lang="scss">
 .movie-ticket-step {
   margin: 36px 0;
+}
+.movie-ticket .activity-hint {
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 .movie-ticket-info {
   border: 1px solid #dcdfe6;

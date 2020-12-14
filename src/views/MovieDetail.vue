@@ -48,6 +48,8 @@
         </div>
       </div>
     </div>
+    <!-- 电影活动 -->
+    <activity-hint :activity="$store.state.activityInfo"></activity-hint>
     <!-- 排片信息 -->
     <div class="movie-schedule">
       <div class="section-title">排片信息</div>
@@ -75,13 +77,16 @@
 <script>
 import IconButton from "@/components/IconButton.vue";
 import MovieScheduleItem from "@/components/movie-detail/MovieScheduleItem.vue";
+import ActivityHint from "@/components/ActivityHint.vue";
 import { getMovieDetailByUser, toggleLikeMovie } from "@/api/movie";
 import { getMovieSchedule } from "@/api/schedule";
+import { getActivityByMovie } from "@/api/activity";
 import { formatDate, isToday, isNextDay } from "@/utils/time";
 export default {
   components: {
     IconButton,
-    MovieScheduleItem
+    MovieScheduleItem,
+    ActivityHint
   },
   props: ["movieId"],
   data() {
@@ -175,6 +180,38 @@ export default {
       } else {
         return dateStr;
       }
+    },
+    updateActivityInfo() {
+      const loading = this.$loading.service();
+      getActivityByMovie(this.movieId)
+        .then(res => {
+          console.log(res.content);
+          if (res.content.length === 0) {
+            this.$store.commit("setActivityInfo", {
+              id: 0,
+              name: "",
+              description: "",
+              startTime: "",
+              endTime: "",
+              targetAmount: 0,
+              coupon: {
+                id: 0,
+                name: "",
+                targetAmount: 0,
+                discountAmount: 0,
+                startTime: "",
+                endTime: ""
+              }
+            });
+          } else {
+            this.$store.commit("setActivityInfo", res.content[0]);
+          }
+          loading.close();
+        })
+        .catch(e => {
+          console.log(e);
+          loading.close();
+        });
     }
   },
   computed: {
@@ -185,7 +222,7 @@ export default {
       return " " + this.movieDetail.description.trim();
     },
     likeColor() {
-      return this.movieDetail.islike ? "#ed5565" : "white";
+      return this.movieDetail.islike ? "#ED5565" : "#FFF";
     },
     likeText() {
       return this.movieDetail.islike ? "已想看" : "想看";
@@ -194,11 +231,13 @@ export default {
   mounted() {
     this.updateMovieDetail();
     this.updateMovieScheduleList();
+    this.updateActivityInfo();
   },
   watch: {
     movieId() {
       this.updateMovieDetail();
       this.updateMovieScheduleList();
+      this.updateActivityInfo();
     }
   }
 };
@@ -281,7 +320,7 @@ $moviePosterHeight: 344px;
   }
 }
 .movie-schedule {
-  margin-top: 32px;
+  margin-top: 16px;
 
   .no-movie-schedule {
     border: 1px solid #dcdfe6;
