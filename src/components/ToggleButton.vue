@@ -39,14 +39,14 @@ export default {
   display: inline-block;
   line-height: 1;
   white-space: nowrap;
+  font-weight: 500;
+  padding: 12px 20px;
+  font-size: 14px;
   cursor: pointer;
   text-align: center;
   box-sizing: border-box;
   outline: none;
   transition: 0.1s;
-  font-weight: 500;
-  padding: 12px 20px;
-  font-size: 14px;
   border: 1px solid #ffffff;
   border-radius: 4px;
 }

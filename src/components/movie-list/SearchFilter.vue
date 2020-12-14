@@ -71,31 +71,49 @@ export default {
 .search-filter-category {
   span {
     color: gray;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    font-weight: 500;
+    padding: 12px 0;
+    font-size: 14px;
   }
 
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 }
 .search-filter-country {
   span {
     color: gray;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    font-weight: 500;
+    padding: 12px 0;
+    font-size: 14px;
   }
 
   border-top: 1px dotted #e5e5e5;
 
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 }
 .search-filter-category-list {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 }
 .search-filter-country-list {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 }
 </style>
