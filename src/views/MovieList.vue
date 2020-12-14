@@ -40,19 +40,21 @@ export default {
     },
     countrySet() {
       const movieList = this.$store.state.movieList;
-      return new Set(
-        movieList
+      return new Set([
+        ...movieList
           .filter((m) => m.country !== undefined)
           .flatMap((m) => m.country.split("/"))
-      );
+          .map((m) => m.trim()),
+      ]);
     },
     categorySet() {
       const movieList = this.$store.state.movieList;
-      return new Set(
-        movieList
+      return new Set([
+        ...movieList
           .filter((m) => m.type !== undefined)
           .flatMap((m) => m.type.split("/"))
-      );
+          .map((m) => m.trim()),
+      ]);
     },
   },
   methods: {
