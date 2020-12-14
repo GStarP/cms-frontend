@@ -112,7 +112,6 @@ $couponMarginX: 12px;
 .coupons {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   flex-wrap: wrap;
 
   width: $couponW * 3 + $couponMarginX * 6;
@@ -127,7 +126,7 @@ $couponMarginX: 12px;
   background: #40a0ffd8;
   height: 120px;
   width: $couponW;
-  margin: 0 $couponMarginX 32px $couponMarginX;
+  margin: 16px $couponMarginX 16px $couponMarginX;
   box-sizing: border-box;
 
   &__content {

@@ -103,6 +103,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 .search-filter-category-list {
   display: flex;
