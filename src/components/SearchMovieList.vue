@@ -83,7 +83,6 @@ export default {
 .search-movie-list-result {
   width: 100%;
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
 }
