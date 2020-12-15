@@ -47,7 +47,7 @@
         <div class="section-title">可用优惠券</div>
         <div class="no-coupon" v-if="availableCoupons.length === 0">
           无可用优惠券，您可以 <strong>提高总金额</strong> 或
-          <el-link>去抽取优惠券</el-link>
+          <strong>选座购买参与活动的电影</strong>
         </div>
         <div class="movie-ticket-pay__coupon-list" v-else>
           <el-tag
@@ -218,7 +218,13 @@ export default {
       const loading = this.$loading.service();
       payFunction(ticketIdList, couponId)
         .then(res => {
-          this.$router.push({ path: "/movie-ticket-finish" });
+          this.$router.push({
+            path: "/movie-ticket-finish",
+            query: {
+              am: this.totalFare,
+              si: this.scheduleId
+            }
+          });
           this.$message.success("支付成功");
           loading.close();
         })

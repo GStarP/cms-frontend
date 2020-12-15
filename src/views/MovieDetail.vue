@@ -185,7 +185,6 @@ export default {
       const loading = this.$loading.service();
       getActivityByMovie(this.movieId)
         .then(res => {
-          console.log(res.content);
           if (res.content.length === 0) {
             this.$store.commit("setActivityInfo", {
               id: 0,
@@ -205,6 +204,7 @@ export default {
             });
           } else {
             this.$store.commit("setActivityInfo", res.content[0]);
+            console.log(res.content[0]);
           }
           loading.close();
         })

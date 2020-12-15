@@ -6,3 +6,8 @@ export async function getMovieSchedule(movieId) {
   );
   return data;
 }
+
+export async function getSchedule(scheduleId) {
+  const { data } = await axios.get(`/schedule/${scheduleId}`);
+  return data;
+}

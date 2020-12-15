@@ -6,43 +6,19 @@
         <div class="no-coupon" v-if="coupons.length === 0">
           您尚未拥有优惠券
         </div>
-        <div class="coupon" v-for="item of coupons" :key="item.idx">
-          <div class="coupon__content">
-            <div class="coupon-left">
-              <div class="name">
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  :content="item.description"
-                  placement="right"
-                >
-                  <span>{{ item.name }}</span>
-                </el-tooltip>
-              </div>
-              <div class="price">
-                满 {{ item.targetAmount }} 减 {{ item.discountAmount }}
-              </div>
-              <div class="valid-period">
-                有效期至 {{ formatDate(item.endTime) }}
-              </div>
-            </div>
-            <div class="coupon-right">
-              <div class="coupon-use" @click="$router.push({ path: '/movie' })">
-                <div>去使用</div>
-                <i class="el-icon-shopping-cart-2 el-icon--right"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+        <coupon v-for="item of coupons" :key="item.idx" :coupon="item"></coupon>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Coupon from "@/components/Coupon.vue";
 import { getUserCoupon } from "@/api/coupon";
-import { formatDate } from "@/utils/time";
 export default {
+  components: {
+    Coupon
+  },
   data() {
     return {
       coupons: [
@@ -82,9 +58,6 @@ export default {
           console.log(e);
           loading.close();
         });
-    },
-    formatDate(time) {
-      return formatDate(time);
     }
   },
   computed: {},
@@ -117,91 +90,9 @@ $couponMarginX: 12px;
   width: $couponW * 3 + $couponMarginX * 6;
 }
 .no-coupon {
+  width: 100%;
+  text-align: center;
   font-size: 24px;
   color: #99a9bf;
-}
-.coupon {
-  position: relative;
-  overflow: hidden;
-  background: #40a0ffd8;
-  height: 120px;
-  width: $couponW;
-  margin: 16px $couponMarginX 16px $couponMarginX;
-  box-sizing: border-box;
-
-  &__content {
-    display: flex;
-    flex-direction: row;
-    padding: 16px 5px;
-    color: white;
-    align-items: center;
-    height: 100%;
-    box-sizing: border-box;
-  }
-}
-
-.coupon::before {
-  border-right: 10px dotted #f6f8fa;
-  left: -5px;
-}
-
-.coupon::after {
-  border-left: 10px dotted #f6f8fa;
-  right: -5px;
-}
-
-.coupon::before,
-.coupon::after {
-  top: 10px;
-  content: " ";
-  width: 0;
-  height: 100%;
-  position: absolute;
-}
-
-.coupon-left {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  border-right: 2px dashed rgba(255, 255, 255, 0.3);
-
-  height: 100%;
-  padding-left: 16px;
-
-  .name {
-    font-size: 16px;
-    margin-bottom: 4px;
-    font-weight: 300;
-  }
-
-  .price {
-    font-size: 24px;
-    color: #fff;
-  }
-
-  .valid-period {
-    font-size: 12px;
-    color: #fff;
-    margin-top: auto;
-  }
-}
-
-.coupon-right {
-  width: 80px;
-}
-
-.coupon-use {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  > i {
-    font-size: 20px;
-    margin-top: 8px;
-  }
-
-  &:hover {
-    cursor: pointer;
-    opacity: 0.7;
-  }
 }
 </style>
