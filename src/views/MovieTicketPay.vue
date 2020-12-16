@@ -60,6 +60,11 @@
             @click="onCouponSelectChange(i)"
             :effect="couponEffect(i)"
             >满 {{ coupon.targetAmount }} 减 {{ coupon.discountAmount }}</el-tag>
+          <el-tag
+            disable-transitions
+            @click="onCouponSelectChange(availableCoupons.length)"
+            :effect="couponEffect(availableCoupons.length)"
+            >不使用优惠券</el-tag>
         </div>
         <div class="movie-ticket-pay__operation">
           <div class="movie-ticket-pay__real-fare">
@@ -215,7 +220,10 @@ export default {
     pay(payFunction) {
       const ticketIdList = this.selectedTickets.map(t => t.ticketId);
       let couponId = 0;
-      if (this.availableCoupons.length > 0) {
+      if (
+        this.availableCoupons.length > 0 &&
+        !this.selectedCoupon === this.availableCoupons.length
+      ) {
         couponId = this.availableCoupons[this.selectedCoupon].id;
       }
       const loading = this.$loading.service();
@@ -260,7 +268,10 @@ export default {
     },
     realFare() {
       let fare = this.totalFare;
-      if (this.availableCoupons.length > 0) {
+      if (
+        this.availableCoupons.length > 0 &&
+        this.selectedCoupon !== this.availableCoupons.length
+      ) {
         fare -= this.availableCoupons[this.selectedCoupon].discountAmount;
       }
       return fare;
