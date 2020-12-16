@@ -21,6 +21,7 @@
     <!-- 办理/更换会员卡弹窗 -->
     <el-dialog
       title="办理/更换会员卡"
+      width="920px"
       :visible.sync="cardChosenDialog.visible"
     >
       <div class="card-type-wrapper">

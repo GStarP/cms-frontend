@@ -1,5 +1,8 @@
 <template>
   <div class="movie-ticket-pay__wrapper">
+    <div class="backer" @click="$router.back()">
+      <i class="el-icon-back"></i>返回
+    </div>
     <movie-ticket-step class="movie-ticket-step" :progress="1" />
     <div class="movie-ticket-pay">
       <el-alert
@@ -291,6 +294,27 @@ export default {
 </script>
 
 <style lang="scss">
+.backer {
+  position: absolute;
+  top: 84px;
+  left: 24px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  font-weight: 300;
+
+  i {
+    font-size: 18px;
+    margin-right: 2px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}
 .movie-ticket-step {
   margin: 36px 0;
 }

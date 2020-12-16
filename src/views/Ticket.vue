@@ -23,7 +23,7 @@
           width="90"
           :filters="[
             { text: '未完成', value: '未完成' },
-            { text: '已完成', value: '已完成' },
+            { text: '已支付', value: '已支付' },
             { text: '已失效', value: '已失效' },
             { text: '已出票', value: '已出票' },
             { text: '已退票', value: '已退票' }
@@ -38,7 +38,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" min-width="120">
+        <el-table-column label="操作" min-width="160">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -54,20 +54,22 @@
               v-if="scope.row.state == 1"
               plain
               >退票</el-button>
-            <el-button
+            <!-- <el-button
+              plain
               size="mini"
               type="danger"
               @click="deleteMyTicket(scope.row)"
               v-if="scope.row.state > 1"
-              >删除记录</el-button>
+              >删除记录</el-button> -->
             <el-button
               size="mini"
-              type="success"
+              type="primary"
               @click="$router.push({ path: `/movie-ticket-pay/${scope.row.scheduleId}` })"
               v-if="scope.row.state == 0"
               plain
-              >付款</el-button>
+              >支付</el-button>
             <el-button
+              plain
               size="mini"
               type="danger"
               @click="cancelMyTicket(scope.row)"
@@ -113,7 +115,7 @@ export default {
             if (s.state == 0) {
               s.stateText = "未完成";
             } else if (s.state == 1) {
-              s.stateText = "已完成";
+              s.stateText = "已支付";
             } else if (s.state == 2) {
               s.stateText = "已失效";
             } else if (s.state == 3) {
@@ -212,12 +214,7 @@ export default {
                   console.log(e);
                 });
             })
-            .catch(() => {
-              this.$message({
-                type: "info",
-                message: "已取消退票"
-              });
-            });
+            .catch(() => {});
         })
         .catch(e => {
           this.$message({
@@ -264,7 +261,7 @@ export default {
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.state == 1) {
-        return "warning-row";
+        return "";
       } else if (row.state == 0) {
         return "danger-row";
       } else if (row.state == 4) {

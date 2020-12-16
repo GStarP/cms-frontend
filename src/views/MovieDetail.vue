@@ -16,7 +16,7 @@
             </el-tag>
             <el-tag type="danger" effect="dark" disable-transitions>
               <i class="el-icon-star-off" />
-              {{ movieDetail.likeCount }}人想看</el-tag>
+              {{ movieDetail.likeCount ? movieDetail.likeCount : 0 }}人想看</el-tag>
             <el-tag
               disable-transitions
               v-for="type in typeList"

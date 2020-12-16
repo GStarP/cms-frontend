@@ -1,9 +1,6 @@
 <template>
   <div class="frame">
     <el-container>
-      <div v-if="$route.path !== '/'" class="backer" @click="$router.back()">
-        <i class="el-icon-back"></i>返回
-      </div>
       <el-header height="64px">
         <div
           class="header-icon-title"
@@ -118,28 +115,6 @@ export default {
 <style lang="scss">
 $headerHeight: 64px;
 
-.backer {
-  position: absolute;
-  top: 84px;
-  left: 24px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  font-weight: 300;
-
-  i {
-    font-size: 18px;
-    margin-right: 2px;
-  }
-
-  &:hover {
-    opacity: 0.8;
-    cursor: pointer;
-  }
-}
-
 .frame {
   min-height: 100vh;
 
@@ -234,13 +209,15 @@ $headerHeight: 64px;
   align-items: center;
 
   // 维持 nav-menu 居中
-  margin-left: -168px;
+  margin-left: -232px;
 }
 
 .user-menu {
   height: $headerHeight;
   line-height: $headerHeight;
   font-size: 1rem;
+
+  margin-left: 16px;
 
   &:hover {
     cursor: pointer;

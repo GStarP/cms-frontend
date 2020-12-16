@@ -63,7 +63,7 @@ export default {
 <style scoped lang="scss">
 .search-movie-item {
   margin: 20px;
-  width: 200px;
+  width: 212px;
   height: auto;
 
   display: flex;
@@ -92,6 +92,9 @@ export default {
     height: $h;
     line-height: $h;
     @include text-ellipsis(1);
+
+    border: solid 1px #dcdfe6;
+    border-top: none;
   }
 }
 .search-movie-item-poster {
