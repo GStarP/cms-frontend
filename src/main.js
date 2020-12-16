@@ -15,7 +15,7 @@ Vue.prototype.$requireLogin = function() {
   return new Promise((resolve, reject) => {
     if (store.state.userInfo.id === 0) {
       router.push({ path: "/login" });
-      this.$message.warning("请先登录");
+      this.$message.warning("请先登录", { duration: 500 });
       reject();
     } else {
       resolve();
